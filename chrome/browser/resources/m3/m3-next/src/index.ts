@@ -59,8 +59,8 @@ export const M3_OPTIMIZE_PACKAGE_IMPORTS: readonly string[] = [
  */
 export const M3_SERVER_EXTERNAL_PACKAGES: readonly string[] = ["@aphrody/bun"];
 
-/** Tauri static export (`output: "export"`); see {@link WithM3Options.tauri}. */
-export interface M3TauriOptions {
+/** Bun-native static export (`output: "export"`); see {@link WithM3Options.bun}. */
+export interface M3BunOptions {
   /** Dev server host the webview loads assets from; default `TAURI_DEV_HOST`, else none (desktop uses `localhost`). */
   devHost?: string;
   /** Dev server port (default 3000). */
@@ -90,7 +90,7 @@ export interface WithM3Options {
    * `proxy.ts`, route handlers and `cookies()` do not exist in an export; the theme preference lives in the cookie
    * the client writes and the pre-paint script reads.
    */
-  tauri?: boolean | "auto" | M3TauriOptions;
+  bun?: boolean | "auto" | M3BunOptions;
 }
 
 function union(...lists: (readonly string[] | undefined)[]): string[] {
@@ -98,8 +98,8 @@ function union(...lists: (readonly string[] | undefined)[]): string[] {
 }
 
 /** `true` when the Tauri CLI drives this process (it sets `TAURI_ENV_PLATFORM` for `beforeBuildCommand` and `beforeDevCommand`). */
-export function isTauriBuild(env: Record<string, string | undefined> = process.env): boolean {
-  return env["TAURI_ENV_PLATFORM"] !== undefined || env["TAURI_ENV_ARCH"] !== undefined;
+export function isBunBuild(env: Record<string, string | undefined> = process.env): boolean {
+  return env["BUN_NATIVE_PLATFORM"] !== undefined || env["BUN_NATIVE_ARCH"] !== undefined;
 }
 
 /**
@@ -144,10 +144,10 @@ export function withM3(config: NextConfig = {}, options: WithM3Options = {}): Ne
   if (options.typedRoutes !== undefined) next.typedRoutes ??= options.typedRoutes;
   if (options.cacheComponents !== undefined) next.cacheComponents ??= options.cacheComponents;
 
-  const tauri = options.tauri === "auto" ? isTauriBuild() : options.tauri;
-  if (tauri !== undefined && tauri !== false) {
-    const { devHost = process.env["TAURI_DEV_HOST"], devPort = 3000 }: M3TauriOptions =
-      tauri === true ? {} : tauri;
+  const bun = options.bun === "auto" ? isBunBuild() : options.bun;
+  if (bun !== undefined && bun !== false) {
+    const { devHost = process.env["BUN_NATIVE_DEV_HOST"], devPort = 3000 }: M3BunOptions =
+      bun === true ? {} : bun;
     next.output ??= "export";
     next.trailingSlash ??= true;
     next.images = { unoptimized: true, ...config.images };

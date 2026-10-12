@@ -287,7 +287,7 @@ export interface M3HtmlProps extends Omit<M3DocumentProps, "mode" | "schemeCss">
   /**
    * Read the theme cookie on the server (default `true`). `false` keeps the shell static, as Cache Components and a
    * static export require: the pre-paint script and the client provider apply the saved preference in the browser.
-   * Always `false` when `NEXT_PUBLIC_M3_STATIC=1` (`withM3(config, { tauri: true })`).
+   * Always `false` when `NEXT_PUBLIC_M3_STATIC=1` (`withM3(config, { bun: true })`).
    */
   readCookie?: boolean;
   /** Cookie holding the preference (default `m3-theme`). */
