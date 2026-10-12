@@ -3,22 +3,22 @@ import { describe, expect, test } from "bun:test";
 import { existsSync } from "node:fs";
 import { readdir } from "node:fs/promises";
 import { join } from "node:path";
-import { buildM3, rewriteHtmlReference, TAURI_LAYOUT } from "../src/build.ts";
+import { buildM3, rewriteHtmlReference, BUN_LAYOUT } from "../src/build.ts";
 import { FIXTURE, fakeCss, REPO_ROOT, tempDir } from "./helpers.ts";
 
 describe("buildM3", () => {
-  test("Tauri mode writes index.html, app.js, app.css and fonts/ without hashes", async () => {
+  test("Bun-native mode writes index.html, app.js, app.css and fonts/ without hashes", async () => {
     await using tmp = await tempDir();
     const uiDist = join(tmp.dir, "ui-dist");
     const result = await buildM3({
       entry: join(FIXTURE, "index.html"),
-      tauri: { uiDist },
+      bun: { uiDist },
       plugin: { css: fakeCss().css, theme: {}, root: REPO_ROOT },
     });
     expect(result.outdir).toBe(uiDist);
     const top = (await readdir(uiDist)).toSorted();
     expect(top).toEqual(
-      [TAURI_LAYOUT.style, TAURI_LAYOUT.script, TAURI_LAYOUT.fonts, TAURI_LAYOUT.html].toSorted(),
+      [BUN_LAYOUT.style, BUN_LAYOUT.script, BUN_LAYOUT.fonts, BUN_LAYOUT.html].toSorted(),
     );
     expect((await readdir(join(uiDist, "fonts"))).toSorted()).toEqual([
       "GoogleSansFlex-Variable.ttf",
@@ -113,12 +113,12 @@ describe("buildM3", () => {
       // oxlint-disable-next-line no-await-in-loop -- Compare build orders serially; each run must finish before starting another bundler.
       const result = await buildM3({
         entry: join(src, "index.html"),
-        tauri: { uiDist },
+        bun: { uiDist },
         cwd,
         plugin: { css: fakeCss().css, theme: {}, root: REPO_ROOT, tailwind: false },
       });
       // oxlint-disable-next-line no-await-in-loop -- Read this completed build before comparing the next independently ordered run.
-      const js = await Bun.file(join(uiDist, TAURI_LAYOUT.script)).text();
+      const js = await Bun.file(join(uiDist, BUN_LAYOUT.script)).text();
       runs.push({
         files: result.outputs.map((o) => o.path).toSorted(),
         js: new Bun.CryptoHasher("sha256").update(js).digest("hex"),
@@ -132,11 +132,11 @@ describe("buildM3", () => {
     for (const run of runs.slice(1)) expect(run).toEqual(runs[0]!);
   });
 
-  test("Tauri mode rejects several entries", async () => {
-    await expect(buildM3({ entry: ["a.html", "b.html"], tauri: { uiDist: "x" } })).rejects.toThrow(
+  test("Bun-native mode rejects several entries", async () => {
+    await expect(buildM3({ entry: ["a.html", "b.html"], bun: { uiDist: "x" } })).rejects.toThrow(
       "exactly one",
     );
-    await expect(buildM3({ entry: "a.ts", tauri: { uiDist: "x" } })).rejects.toThrow(".html");
+    await expect(buildM3({ entry: "a.ts", bun: { uiDist: "x" } })).rejects.toThrow(".html");
   });
 
   test("rewriteHtmlReference touches src/href attributes only", () => {

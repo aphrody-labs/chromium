@@ -6,6 +6,6 @@ export default defineM3Config({
   outdir: "dist",
   port: 0,
   proxy: { "/rpc": "http://127.0.0.1:9" },
-  tauri: { uiDist: "ui-dist" },
+  bun: { uiDist: "ui-dist" },
   theme: { seed: "#336699", variant: "vibrant", contrast: 0.5 },
 });

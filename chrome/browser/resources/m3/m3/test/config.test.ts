@@ -11,7 +11,7 @@ describe("m3.config.ts", () => {
     expect(config.dir).toBe(FIXTURE);
     expect(config.entry).toBe(join(FIXTURE, "index.html"));
     expect(config.outdir).toBe(join(FIXTURE, "dist"));
-    expect(config.tauri?.uiDist).toBe(join(FIXTURE, "ui-dist"));
+    expect(config.bun?.uiDist).toBe(join(FIXTURE, "ui-dist"));
     expect(config.proxy).toEqual({ "/rpc": "http://127.0.0.1:9" });
     expect(config.theme).toEqual({ seed: "#336699", variant: "vibrant", contrast: 0.5 });
     expect(config.port).toBe(0);
@@ -25,7 +25,7 @@ describe("m3.config.ts", () => {
     expect(config.routes).toEqual({ "/about": join(tmp.dir, "pages/about.html") });
     expect(config.pagesDir).toBe(join(tmp.dir, "pages/react"));
     expect(config.outdir).toBe(join(tmp.dir, "dist"));
-    expect(config.tauri).toBeUndefined();
+    expect(config.bun).toBeUndefined();
   });
 
   test("lookup order and missing config", async () => {
