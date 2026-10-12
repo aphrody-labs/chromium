@@ -2,7 +2,7 @@
 // The `m3` command line (package bin `m3`, `bin/m3.ts`):
 //
 //   m3 dev    [--port <n>] [--no-hmr] [--config <file>]
-//   m3 build  [--tauri [<dir>]] [--outdir <dir>] [--dev] [--config <file>]
+//   m3 build  [--bun [<dir>]] [--outdir <dir>] [--dev] [--config <file>]
 //   m3 tokens [--sheet tokens|tailwind|spaceui|scheme] [--seed <hex>] [--variant <name>]
 //             [--dark] [--contrast <n>] [--out <file>] | --bundle <dir> [--root <dir>]
 //   m3 check
@@ -50,7 +50,7 @@ export interface ParsedArgs {
 
 /** Flags that never take a value. */
 const BOOLEAN_FLAGS = new Set(["dark", "dev", "hmr", "help", "version", "build", "prerender"]);
-/** Flags whose value is optional (`--tauri` alone uses `tauri.uiDist` of the config). */
+/** Flags whose value is optional (`--bun` alone uses `bun.uiDist` of the config). */
 const OPTIONAL_VALUE_FLAGS = new Set(["bun"]);
 const SHORT: Record<string, string> = { h: "help", v: "version", p: "port", o: "out" };
 
@@ -58,7 +58,7 @@ export const USAGE = `m3 — the @aphrody Material Design 3 framework CLI
 
 Usage:
   m3 dev      [--port <n>] [--no-hmr] [--config <file>]
-  m3 build    [--tauri [<dir>]] [--outdir <dir>] [--dev] [--no-prerender] [--config <file>]
+  m3 build    [--bun [<dir>]] [--outdir <dir>] [--dev] [--no-prerender] [--config <file>]
   m3 start    [--port <n>] [--outdir <dir>] [--config <file>]
   m3 compile  [--target <t>] [--outfile <file>] [--dev] [--no-build] [--config <file>]
   m3 docker   [--outdir <dir>] [--base <image>] [--tag <image>] [--no-prerender] [--config <file>]

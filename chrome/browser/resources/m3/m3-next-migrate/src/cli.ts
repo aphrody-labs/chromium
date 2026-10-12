@@ -15,7 +15,7 @@ import { CODEMOD_HELP, runCodemodCli } from "./codemods/cli";
 
 function printHelp() {
   console.log(`
-@aphrody/m3-next-migrate — Next.js 16 components and native Bun web projects; pinned Tauri 3 source inspection
+@aphrody/m3-next-migrate — Next.js 16 components and Bun-native applications
 
 USAGE:
   next-migrate [OPTIONS] <SOURCE_PATH> [TARGET_PATH]
@@ -25,7 +25,7 @@ ARGUMENTS:
   [TARGET_PATH]   Destination directory for the migrated app or component
 
 OPTIONS:
-  -t, --target <tauri|vite>    Target host (vite is the legacy name for native Bun web; default: tauri)
+  -t, --target <bun>           Target host (default: bun)
   --name <string>              Target project name (default: migrated-app)
   --m3                         Modernize UI components to authentic @aphrody/m3-primitives (Button, Input, Card, Badge, Tooltip, Collapsible)
   --n2b                        Apply aggressive Node-to-Bun transforms (default: true)
@@ -37,11 +37,11 @@ OPTIONS:
   -v, --version                Show version
 
 EXAMPLES:
-  # Inspect native Tauri source; activation requires a registered Rust owner and Workspace factory
-  next-migrate ./my-next-app ./inspect --target tauri --m3 --dry-run
+  # Inspect and plan a Bun-native migration
+  next-migrate ./my-next-app ./inspect --target bun --m3 --dry-run
 
   # Create a native Bun web app inside the Aphrody/M3 private owner workspace
-  next-migrate ./my-next-app ./apps/my-bun-app --target vite --m3
+  next-migrate ./my-next-app ./apps/my-bun-app --target bun --m3
 
   # Scan a Next.js 16 directory and report Next features & components
   next-migrate ./my-next-app --scan-only

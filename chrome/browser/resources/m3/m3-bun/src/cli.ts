@@ -14,7 +14,7 @@
 //   m3-bun pack     [package-dir] [--out d]                     build a workspace package and `bun pm pack` it
 //   m3-bun lint     [paths..] [--strict] [--fix] [--correctness]     eslint-plugin-m3 rules through oxlint
 //   m3-bun migrate  [--icons] [--glob g] [--dry-run] | --next <src> <out> [--m3] [--write]   m3-codemods, m3-next-migrate
-//   m3-bun create   <web|app|spa|example> <dir> [--name n] [--target tauri|vite] [--dry-run]   scaffold
+//   m3-bun create   <web|app|spa|example> <dir> [--name n] [--target bun] [--dry-run]   scaffold
 //   m3-bun design   "<brief>" [--color c] [--system s] [--validate] [--out d]       m3-design
 //   m3-bun og       [--dark] [--engine native|mcu] [--title t] [--subtitle s] [--out f.png|webp]   canvas
 //   m3-bun lib      [dir] [--outdir d] [--minify-lib]            m3-config bun-build preset
@@ -155,7 +155,7 @@ Usage:
   m3-bun lint     [paths..] [--strict] [--fix] [--correctness]
   m3-bun migrate  [--icons] [--glob <g>] [--dry-run]
   m3-bun migrate  --next <source> <target> [--name <n>] [--m3] [--write]
-  m3-bun create   <web|app|spa|example> <dir> [--name <n>] [--target tauri|vite] [--dry-run]
+  m3-bun create   <web|app|spa|example> <dir> [--name <n>] [--target bun] [--dry-run]
   m3-bun design   "<brief>" [--color <hex>] [--system <s>] [--validate] [--out <dir>]
   m3-bun og       [--dark] [--engine native|mcu] [--title <t>] [--subtitle <s>] [--out <file.png|webp>]
   m3-bun lib      [dir] [--outdir <dir>] [--minify-lib]
