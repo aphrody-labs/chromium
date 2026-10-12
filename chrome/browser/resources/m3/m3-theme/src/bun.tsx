@@ -13,12 +13,12 @@ declare global {
   }
 }
 
-/** Whether the page runs inside a Tauri webview (false during SSR). */
-function detectTauri(): boolean {
+/** Whether the page runs inside the Bun-native Chromium host (false during SSR). */
+function detectBunNative(): boolean {
   return typeof window !== "undefined" && window.bunmium !== undefined;
 }
 
-/** Invoke a Tauri window command, ignoring failures (restricted capability, browser preview). */
+/** Invoke a Bun-native window command, ignoring failures in browser preview. */
 function invokeWindow(command: string, args?: Record<string, unknown>): Promise<unknown> {
   return (
     window.bunmium?.invoke(command, args).catch(() => undefined) ??
@@ -31,27 +31,26 @@ const closeWindow = () => void invokeWindow("plugin:window|close");
 
 /**
  * A custom React hook that automatically synchronizes the M3 theme mode
- * (light/dark) back to the Tauri native window context.
+ * (light/dark) back to the Bun-native window context.
  */
-export function useM3TauriThemeSync() {
+export function useM3BunThemeSync() {
   const { resolvedTheme } = useM3Theme();
-  const [isTauri] = useState(detectTauri);
+  const [isBunNative] = useState(detectBunNative);
 
   useEffect(() => {
-    if (!isTauri) return;
-    // Tauri 2 window set_theme accepts the parameter 'value' rather than 'theme'.
+    if (!isBunNative) return;
     void invokeWindow("plugin:window|set_theme", { value: resolvedTheme });
-  }, [isTauri, resolvedTheme]);
+  }, [isBunNative, resolvedTheme]);
 
-  return { isTauri };
+  return { isBunNative };
 }
 
-export interface M3TauriTitlebarProps {
+export interface M3BunTitlebarProps {
   /** The title to display in the titlebar. */
   title?: string;
   /** Custom logo or icon component to display on the left. */
   logo?: React.ReactNode;
-  /** Force show even if not running inside Tauri (useful for preview/styling). */
+  /** Force show even outside the Bun-native host (useful for preview/styling). */
   forceShow?: boolean;
   /** Custom style overrides. */
   style?: React.CSSProperties;
@@ -105,21 +104,21 @@ function WindowControl({ label, onClick, danger = false, children }: WindowContr
 }
 
 /**
- * A highly polished, M3-themed custom titlebar component for Tauri 2 windows.
+ * A highly polished, M3-themed custom titlebar component for Bun-native windows.
  * Hides automatically when running in a normal web browser.
  */
-export function M3TauriTitlebar({
+export function M3BunTitlebar({
   title,
   logo,
   forceShow = false,
   style,
   extraActions,
-}: M3TauriTitlebarProps) {
-  const { isTauri } = useM3TauriThemeSync();
+}: M3BunTitlebarProps) {
+  const { isBunNative } = useM3BunThemeSync();
   const [isMaximized, setIsMaximized] = useState(false);
 
   useEffect(() => {
-    if (!isTauri) return;
+    if (!isBunNative) return;
     // Track the maximize state: resizing happens on maximize, restore and manual resizes.
     const checkMaximized = () => {
       void invokeWindow("plugin:window|is_maximized").then((maximized) =>
@@ -129,9 +128,9 @@ export function M3TauriTitlebar({
     checkMaximized();
     window.addEventListener("resize", checkMaximized);
     return () => window.removeEventListener("resize", checkMaximized);
-  }, [isTauri]);
+  }, [isBunNative]);
 
-  if (!forceShow && !isTauri) return null;
+  if (!forceShow && !isBunNative) return null;
 
   const toggleMaximize = () => {
     void invokeWindow(isMaximized ? "plugin:window|unmaximize" : "plugin:window|maximize").then(
