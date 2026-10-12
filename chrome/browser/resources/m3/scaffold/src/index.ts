@@ -9,7 +9,6 @@
  * | `spa`     | Bun + React SPA on TanStack Router, served by m3-bun | `aphrody-scaffold new spa`   |
  * | `example` | the canonical example: `app` + Tauri 3 + M3      | docs, CI, `aphrody-scaffold`     |
  *
- * The Tauri 3 shell (`tauriShell`) is also what `web-to-tauri` writes around a wrapped site.
  */
 import { assertNativeShellOwner, assertPrivateOwnerWorkspace } from "./workspace";
 import { writeFiles, type FileMap, type WriteMode } from "./files.ts";
@@ -20,7 +19,6 @@ import { ownerM3Version, webFiles, type WebTemplateOptions } from "./templates/w
 export * from "./files.ts";
 export * from "./workspace";
 export * from "./names.ts";
-export * from "./pins.ts";
 export * from "./png.ts";
 export {
   appFiles,

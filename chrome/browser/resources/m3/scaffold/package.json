@@ -23,7 +23,6 @@
   "types": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts",
-    "./pins": "./src/pins.ts",
     "./png": "./src/png.ts",
     "./names": "./src/names.ts",
     "./files": "./src/files.ts",
