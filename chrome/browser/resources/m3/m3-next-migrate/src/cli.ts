@@ -263,7 +263,7 @@ async function main(args: string[]): Promise<number> {
   return 0;
 }
 
-/** `next-migrate <argv>` (`yolo m3 next-migrate <argv>`): resolves to the exit status; a failure is reported, not thrown. */
+/** `next-migrate <argv>`: resolves to the exit status; a failure is reported, not thrown. */
 export async function runNextMigrate(argv: string[]): Promise<number> {
   try {
     return await main(argv);

@@ -9,9 +9,9 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "bun ../../../../../packages/engine/yolo/src/index.ts m3 next dev",
-    "build": "bun ../../../../../packages/engine/yolo/src/index.ts m3 next build",
-    "start": "bun ../../../../../packages/engine/yolo/src/index.ts m3 next start",
+    "dev": "bun run m3-next dev",
+    "build": "bun run m3-next build",
+    "start": "bun run m3-next start",
     "typecheck": "bun check -p tsconfig.json --noEmit",
     "test": "bun test ./test/"
   },

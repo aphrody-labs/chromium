@@ -55,7 +55,7 @@ async function main(argv: string[]): Promise<number> {
   return command === undefined || command === "help" || command === "--help" ? 0 : 1;
 }
 
-/** `aphrody-scaffold <argv>` (`yolo m3 scaffold <argv>`): resolves to the exit status; errors are reported, not thrown. */
+/** `aphrody-scaffold <argv>`: resolves to the exit status; errors are reported, not thrown. */
 export async function runScaffold(argv: string[]): Promise<number> {
   try {
     return await main(argv);
