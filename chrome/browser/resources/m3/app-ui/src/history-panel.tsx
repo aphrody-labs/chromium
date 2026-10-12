@@ -11,7 +11,7 @@ import {
   type ThreadSummary,
   transcript,
 } from "./history";
-import { copyToNativeClipboard } from "./tauri-bridge";
+import { copyToNativeClipboard } from "./bun-bridge";
 
 export type Rpc = (
   method: string,

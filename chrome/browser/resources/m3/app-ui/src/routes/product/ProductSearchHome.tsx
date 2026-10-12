@@ -5,7 +5,7 @@ import { useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { searchGoogle, type GoogleSearchPage } from "../../google-search";
 import { useI18n } from "../../i18n";
-import { isTauri } from "../../tauri-bridge";
+import { isBunNative } from "../../bun-bridge";
 import { productSearchMessages } from "./product-search-messages";
 
 export function ProductSearchHome({ assetBase }: { publicPreview?: boolean; assetBase?: string }) {
@@ -178,7 +178,7 @@ export function ProductSearchHome({ assetBase }: { publicPreview?: boolean; asse
           <Link className="min-h-12 content-center underline" to="/os">
             {text.files}
           </Link>
-          {isTauri() && (
+          {isBunNative() && (
             <Link className="min-h-12 content-center underline" to="/studio?section=drive">
               {text.drive}
             </Link>

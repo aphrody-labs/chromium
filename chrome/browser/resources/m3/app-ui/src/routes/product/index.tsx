@@ -42,7 +42,7 @@ function ProductPage({
 
 export function ProductHome() {
   const platform = usePlatform();
-  if (platform.platform === "tauri") return <Navigate to="/explorer" replace />;
+  if (platform.platform === "bun") return <Navigate to="/explorer" replace />;
   return <ProductSearchHome />;
 }
 

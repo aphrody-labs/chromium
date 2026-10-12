@@ -7,7 +7,7 @@
 // store. Model routing stays in the `APHRODY_AI_*` contract read by `aphrody app-server`.
 import { invoke } from "@aphrody/api/core";
 
-import { isTauri } from "./tauri-bridge";
+import { isBunNative } from "./bun-bridge";
 
 export type SearchSources = {
   /** Match past app-server threads while typing. */
@@ -209,7 +209,7 @@ async function migrateLegacy(rid: number, legacy: Storage | undefined) {
 
 /** Read one setting; `undefined` when it was never written. */
 export async function readSetting<T>(key: string): Promise<T | undefined> {
-  if (!isTauri()) {
+  if (!isBunNative()) {
     const raw = globalThis.localStorage?.getItem(`aphrody.${key}`);
     if (raw == null) return undefined;
     try {
@@ -225,7 +225,7 @@ export async function readSetting<T>(key: string): Promise<T | undefined> {
 
 /** Write and flush one setting. Errors propagate to the caller. */
 export async function writeSetting(key: string, value: unknown): Promise<void> {
-  if (!isTauri()) {
+  if (!isBunNative()) {
     globalThis.localStorage?.setItem(`aphrody.${key}`, JSON.stringify(value));
     return;
   }

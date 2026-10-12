@@ -5,7 +5,7 @@
 // events and keeps the state of one run. The protocol source is
 // packages/infra/product/src/shared/desktop.ts (a test checks both stay in step).
 import { Channel, invoke } from "@aphrody/api/core";
-import { isTauri } from "./tauri-bridge";
+import { isBunNative } from "./bun-bridge";
 
 export const KIT_PROTOCOL = "aphrody.kit/1";
 
@@ -89,7 +89,7 @@ export async function startKit(
   args: string[],
   onEvent: (event: KitEvent) => void,
 ): Promise<KitRun> {
-  if (!isTauri()) throw new Error(NOT_DESKTOP);
+  if (!isBunNative()) throw new Error(NOT_DESKTOP);
   const channel = new Channel<KitEvent>();
   // Channel exposes only the `onmessage` setter.
   // oxlint-disable-next-line unicorn/prefer-add-event-listener

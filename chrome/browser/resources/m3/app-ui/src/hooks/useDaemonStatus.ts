@@ -12,19 +12,19 @@ export interface DaemonStatus {
 export function useDaemonStatus() {
   const platform = usePlatform();
   // For Tauri, start in "starting" state. For web, assume connected.
-  const isTauri = platform.platform === "tauri";
+  const isBunNative = platform.platform === "bun";
   const [status, setStatus] = useState<DaemonStatus>({
-    isConnected: !isTauri, // Web is always "connected", Tauri starts disconnected
+    isConnected: !isBunNative, // Web is always "connected", Tauri starts disconnected
     isChecking: false,
     isInstalled: false,
-    isStarting: isTauri, // Only Tauri starts in "starting" state
+    isStarting: isBunNative, // Only Tauri starts in "starting" state
   });
 
   // Track if we've ever been connected - once connected, isStarting stays false
-  const hasEverConnected = useRef(!isTauri);
+  const hasEverConnected = useRef(!isBunNative);
 
   useEffect(() => {
-    if (platform.platform !== "tauri") {
+    if (platform.platform !== "bun") {
       return;
     }
 

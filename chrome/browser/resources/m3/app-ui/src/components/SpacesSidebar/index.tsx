@@ -503,7 +503,7 @@ export function SpacesSidebar({ isPreviewActive = false }: SpacesSidebarProps) {
         <nav
           className={clsx(
             "relative z-[51] flex h-full flex-col gap-2 p-3 pb-2",
-            platform.platform === "tauri" && "pt-[43px]",
+            platform.platform === "bun" && "pt-[43px]",
           )}
         >
           {/* Switcher en haut avec avatar Aphrody */}
@@ -580,7 +580,7 @@ export function SpacesSidebar({ isPreviewActive = false }: SpacesSidebarProps) {
               <span className="truncate">{language === "fr" ? "Fichiers" : "Files"}</span>
             </button>
 
-            {platform.platform !== "tauri" && (
+            {platform.platform !== "bun" && (
               <button
                 type="button"
                 onClick={() => navigate(browserOnlyRoutes.terminal)}

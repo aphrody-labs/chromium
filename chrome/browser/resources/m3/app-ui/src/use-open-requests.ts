@@ -12,7 +12,7 @@ import {
   type OpenIntent,
   type OpenRequest,
 } from "./open-requests";
-import { isTauri, tauriInvoke } from "./tauri-bridge";
+import { isBunNative, bunInvoke } from "./bun-bridge";
 
 export const OPEN_EVENT = "aphrody://open";
 
@@ -46,10 +46,10 @@ export function routeOf(intent: OpenIntent): { to: string; state?: { initialProm
 export function useOpenRequests(): void {
   const navigate = useNavigate();
   useEffect(() => {
-    if (!isTauri()) return;
+    if (!isBunNative()) return;
     let active = true;
     const drain = async () => {
-      const requests = (await tauriInvoke<OpenRequest[]>("aphrody_take_open_requests")) ?? [];
+      const requests = (await bunInvoke<OpenRequest[]>("aphrody_take_open_requests")) ?? [];
       // The last intent wins: one navigation per batch.
       const last = intentsOf(requests).at(-1);
       if (active && last) {

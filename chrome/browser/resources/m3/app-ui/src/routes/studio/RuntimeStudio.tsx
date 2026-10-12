@@ -4,7 +4,7 @@
 // packages/engine/yolo/web demo page.
 import { useState } from "react";
 import { MONOREPO_BUN_CATALOG } from "../../generated/bun-catalog";
-import { tauriInvoke } from "../../tauri-bridge";
+import { bunInvoke } from "../../bun-bridge";
 
 interface SystemStats {
   os: string;
@@ -33,13 +33,13 @@ export function RuntimeStudio() {
   };
   const probe = () =>
     run(async () => {
-      const stats = await tauriInvoke<SystemStats>("aphrody_system_stats");
+      const stats = await bunInvoke<SystemStats>("aphrody_system_stats");
       if (!stats) return "Cette mesure nécessite l’application Aphrody.";
       return `${stats.os} ${stats.arch} · ${new Date(stats.timestamp_ms).toLocaleString()}`;
     });
   const bench = () =>
     run(async () => {
-      const result = await tauriInvoke<BenchmarkResult>("aphrody_benchmark", {
+      const result = await bunInvoke<BenchmarkResult>("aphrody_benchmark", {
         iterations: BENCHMARK_ITERATIONS,
       });
       if (!result) return "Cette mesure nécessite l’application Aphrody.";

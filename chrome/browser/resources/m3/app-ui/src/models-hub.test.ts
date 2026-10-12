@@ -17,7 +17,7 @@ import {
   STANDARD_EXTERNAL_MODEL_DIRS,
   startDownload,
 } from "./models-hub-state";
-import type { HardwareTelemetry } from "./tauri-bridge";
+import type { HardwareTelemetry } from "./bun-bridge";
 
 const hardware = (
   gpus: HardwareTelemetry["gpus"],

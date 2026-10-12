@@ -1,6 +1,7 @@
 import { memo, useMemo } from "react";
 import { TopBarSection } from "./Section";
 import { useOverflowCalculation } from "./useOverflowCalculation";
+import { isBunNative, bunInvoke } from "../bun-bridge";
 
 interface TopBarProps {
 	sidebarWidth?: number;
@@ -16,16 +17,14 @@ const isMacOS = typeof navigator !== 'undefined' &&
 	(navigator.platform.toLowerCase().includes('mac') || navigator.userAgent.includes('Mac'));
 
 function WindowControls() {
-	if (typeof window === "undefined" || !window.__TAURI__ || isMacOS) return null;
+	if (typeof window === "undefined" || !isBunNative() || isMacOS) return null;
 	return (
-		<div className="flex items-center gap-1 pl-2" data-tauri-drag-region="false" style={{ ["WebkitAppRegion" as any]: "no-drag" }}>
+		<div className="flex items-center gap-1 pl-2" data-bun-drag-region="false" style={{ ["WebkitAppRegion" as any]: "no-drag" }}>
 			<button
 				type="button"
 				onClick={(e) => {
 					e.stopPropagation();
-					if (window.__TAURI__?.core) {
-						void window.__TAURI__.core.invoke("aphrody_shell_window", { action: { action: "minimize" } });
-					}
+					void bunInvoke("aphrody_shell_window", { action: { action: "minimize" } });
 				}}
 				className="flex h-8 w-8 items-center justify-center rounded-md text-on-surface-variant hover:bg-surface-container-high transition-colors"
 				title="Minimiser"
@@ -36,9 +35,7 @@ function WindowControls() {
 				type="button"
 				onClick={(e) => {
 					e.stopPropagation();
-					if (window.__TAURI__?.core) {
-						void window.__TAURI__.core.invoke("aphrody_shell_window", { action: { action: "toggle_maximize" } });
-					}
+					void bunInvoke("aphrody_shell_window", { action: { action: "toggle_maximize" } });
 				}}
 				className="flex h-8 w-8 items-center justify-center rounded-md text-on-surface-variant hover:bg-surface-container-high transition-colors"
 				title="Agrandir / Restaurer"
@@ -49,9 +46,7 @@ function WindowControls() {
 				type="button"
 				onClick={(e) => {
 					e.stopPropagation();
-					if (window.__TAURI__?.core) {
-						void window.__TAURI__.core.invoke("aphrody_shell_window", { action: { action: "close" } });
-					}
+					void bunInvoke("aphrody_shell_window", { action: { action: "close" } });
 				}}
 				className="flex h-8 w-8 items-center justify-center rounded-md text-on-surface-variant hover:bg-error hover:text-on-error transition-colors"
 				title="Fermer"
@@ -76,10 +71,10 @@ export const TopBar = memo(function TopBar({ sidebarWidth = 0, inspectorWidth = 
 	return (
 		<div
 			className="absolute top-0 z-[60] h-12"
-			data-tauri-drag-region
+			data-bun-drag-region
 			onDoubleClick={(e) => {
-				if (e.target === e.currentTarget && typeof window !== "undefined" && window.__TAURI__?.core) {
-					void window.__TAURI__.core.invoke("aphrody_shell_window", { action: { action: "toggle_maximize" } });
+				if (e.target === e.currentTarget && isBunNative()) {
+					void bunInvoke("aphrody_shell_window", { action: { action: "toggle_maximize" } });
 				}
 			}}
 			style={{
@@ -90,10 +85,10 @@ export const TopBar = memo(function TopBar({ sidebarWidth = 0, inspectorWidth = 
 			<div
 				ref={containerRef}
 				className="relative flex items-center h-full px-3 gap-3 overflow-hidden"
-				data-tauri-drag-region
+				data-bun-drag-region
 				onDoubleClick={(e) => {
-					if (e.target === e.currentTarget && typeof window !== "undefined" && window.__TAURI__?.core) {
-						void window.__TAURI__.core.invoke("aphrody_shell_window", { action: { action: "toggle_maximize" } });
+					if (e.target === e.currentTarget && isBunNative()) {
+						void bunInvoke("aphrody_shell_window", { action: { action: "toggle_maximize" } });
 					}
 				}}
 				style={{

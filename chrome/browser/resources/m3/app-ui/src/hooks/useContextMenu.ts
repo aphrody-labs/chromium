@@ -143,10 +143,10 @@ export function useContextMenu(config: ContextMenuConfig): ContextMenuResult {
 			);
 			const visibleItems = collapseSeparators(processMenuItems(filteredItems));
 
-			const isTauri = platform.platform === 'tauri';
+			const isBunNative = platform.platform === 'bun';
 			const nativeShow = (window as any).__SPACEDRIVE__?.showContextMenu;
 
-			if (isTauri && nativeShow) {
+			if (isBunNative && nativeShow) {
 				try {
 					await nativeShow(visibleItems, { x: e.clientX, y: e.clientY });
 					return;

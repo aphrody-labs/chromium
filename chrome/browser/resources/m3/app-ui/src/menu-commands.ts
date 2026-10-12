@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { desktopRoutes } from "./desktop-navigation";
 import { useChatStore } from "./stores/chat-store";
-import { isTauri, pickDirectory, pickFile } from "./tauri-bridge";
+import { isBunNative, pickDirectory, pickFile } from "./bun-bridge";
 
 export type MenuCommand = "new-session" | "open-file" | "open-folder";
 
@@ -82,7 +82,7 @@ export function useMenuCommands(): void {
 
     let disposed = false;
     const unlisteners: Array<() => void> = [];
-    if (isTauri()) {
+    if (isBunNative()) {
       void (async () => {
         const { listen } = await import("@aphrody/api/event");
         const commands = Object.keys(MENU_EVENTS) as MenuCommand[];

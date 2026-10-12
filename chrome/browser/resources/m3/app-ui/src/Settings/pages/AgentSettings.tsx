@@ -11,7 +11,7 @@ import {
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
 } from "@aphrody/m3-primitives";
-import { aphrodyRpc, ensureAphrodyInitialized, pickDirectory } from "../../tauri-bridge";
+import { aphrodyRpc, ensureAphrodyInitialized, pickDirectory } from "../../bun-bridge";
 import {
   hydratePreferences,
   updatePreferences,

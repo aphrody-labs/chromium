@@ -6,7 +6,7 @@ import type {
   HardwareTelemetry,
   InstalledModels,
   PullProgress,
-} from "./tauri-bridge";
+} from "./bun-bridge";
 import { FuzzySearch } from "@aphrody/fuzzy";
 
 /** Jan hub search contract, adapted to Aphrody's existing catalog/store schema.

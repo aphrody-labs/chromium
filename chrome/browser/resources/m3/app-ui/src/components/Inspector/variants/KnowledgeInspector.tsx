@@ -3,7 +3,7 @@
 import { Icon, m3FocusRing, CircularProgress, toast } from "@aphrody/m3-primitives";
 import { useState } from "react";
 import { clsx } from "clsx";
-import { askLocalAi, runRagSearch } from "../../../tauri-bridge";
+import { askLocalAi, runRagSearch } from "../../../bun-bridge";
 import { useI18n } from "../../../i18n";
 
 interface Message {

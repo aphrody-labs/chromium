@@ -55,13 +55,13 @@ function ShellWithDaemonCheck({ embedded = false, routes }: { embedded?: boolean
 
 export function Shell({ client, embedded = false, routes }: ShellProps) {
 	const platform = usePlatform();
-	const isTauri = platform.platform === "tauri";
+	const isBunNative = platform.platform === "bun";
 
 	return (
 		<SpacedriveProvider client={client}>
 			<ServerProvider>
 				<TooltipProvider>
-					{isTauri ? (
+					{isBunNative ? (
 						<ShellWithDaemonCheck embedded={embedded} routes={routes} />
 					) : (
 						<>

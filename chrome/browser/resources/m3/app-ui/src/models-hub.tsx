@@ -36,7 +36,7 @@ import {
   pullModel,
   removeModel,
   verifyModel,
-} from "./tauri-bridge";
+} from "./bun-bridge";
 import {
   getActiveModelSetting,
   getDefaultModelSetting,

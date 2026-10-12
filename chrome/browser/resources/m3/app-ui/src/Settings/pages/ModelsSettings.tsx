@@ -6,7 +6,7 @@ import {
   getHardwareTelemetry,
   pickDirectory,
   type HardwareTelemetry,
-} from "../../tauri-bridge";
+} from "../../bun-bridge";
 import { formatMb } from "../../models-hub-state";
 import { hydratePreferences, updatePreferences } from "../../preferences";
 

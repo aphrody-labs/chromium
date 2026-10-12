@@ -99,7 +99,7 @@ function InspectorView({
 			{/* Drag region for macOS traffic lights area */}
 			{!hideDragRegion && (
 				<div
-					data-tauri-drag-region
+					data-bun-drag-region
 					className="absolute inset-x-0 top-0 h-[52px] z-[60] pointer-events-none"
 				/>
 			)}

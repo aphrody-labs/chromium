@@ -19,7 +19,7 @@ import {
   walkDirection,
   walkDuration,
 } from "./pet-behavior";
-import { isTauri, tauriInvoke } from "./tauri-bridge";
+import { isBunNative, bunInvoke } from "./bun-bridge";
 
 /** Event carrying the pointer position relative to the pet window (integration.rs). */
 const PET_CURSOR_EVENT = "aphrody://pet/cursor";
@@ -38,9 +38,7 @@ function listen<T>(name: string, handler: (payload: T) => void): () => void {
   let unlisten: (() => void) | undefined;
   let cancelled = false;
   const subscribe = async () => {
-    const stop = await window.__TAURI__?.event?.listen(name, (event) =>
-      handler(event.payload as T),
-    );
+    const stop = await window.bunmium?.listen?.<T>(name, handler);
     if (cancelled) stop?.();
     else unlisten = stop;
   };
@@ -93,7 +91,7 @@ export function DesktopPet() {
     const report = () => {
       const rect = sprite.current?.getBoundingClientRect();
       if (rect)
-        void tauriInvoke("aphrody_pet", {
+        void bunInvoke("aphrody_pet", {
           action: {
             action: "hit_rect",
             x: rect.x,
@@ -117,7 +115,7 @@ export function DesktopPet() {
     const dx = mode === "walk-left" ? -WALK_STEP : WALK_STEP;
     const step = setInterval(async () => {
       if (press.current) return;
-      const result = await tauriInvoke<{ blocked: boolean }>("aphrody_pet", {
+      const result = await bunInvoke<{ blocked: boolean }>("aphrody_pet", {
         action: { action: "step", dx },
       });
       if (result?.blocked) setMode(mode === "walk-left" ? "walk-right" : "walk-left");
@@ -156,7 +154,7 @@ export function DesktopPet() {
     if (!current || current.dragging || (event.buttons & 1) === 0) return;
     if (Math.hypot(event.screenX - current.x, event.screenY - current.y) > 4) {
       current.dragging = true;
-      void tauriInvoke("aphrody_pet", { action: { action: "start_dragging" } }).finally(() => {
+      void bunInvoke("aphrody_pet", { action: { action: "start_dragging" } }).finally(() => {
         press.current = null;
       });
     }
@@ -165,7 +163,7 @@ export function DesktopPet() {
     const current = press.current;
     press.current = null;
     if (current && !current.dragging)
-      void tauriInvoke("aphrody_pet", { action: { action: "open_main" } });
+      void bunInvoke("aphrody_pet", { action: { action: "open_main" } });
   };
 
   const scale = PET_HEIGHT / PET.atlas.cellHeight;
@@ -181,7 +179,7 @@ export function DesktopPet() {
         onPointerUp={onPointerUp}
         onContextMenu={(event) => {
           event.preventDefault();
-          void tauriInvoke("aphrody_pet", { action: { action: "hide" } });
+          void bunInvoke("aphrody_pet", { action: { action: "hide" } });
         }}
       >
         {still ? (
@@ -214,7 +212,7 @@ interface IntegrationState {
 }
 
 function widgetAction(action: string) {
-  return tauriInvoke<IntegrationState>("aphrody_widget", { action: { action } });
+  return bunInvoke<IntegrationState>("aphrody_widget", { action: { action } });
 }
 
 /** Desktop widget: clock, host and quick actions. */
@@ -226,8 +224,8 @@ export function DesktopWidget() {
 
   useEffect(() => {
     const timer = setInterval(() => setNow(new Date()), 1000);
-    if (isTauri())
-      void tauriInvoke<string>("plugin:os|hostname").then((name) => setHost(name ?? ""));
+    if (isBunNative())
+      void bunInvoke<string>("plugin:os|hostname").then((name) => setHost(name ?? ""));
     return () => clearInterval(timer);
   }, []);
 

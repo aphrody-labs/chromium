@@ -7,7 +7,7 @@
  * camelCase keys below onto the snake_case Rust parameters.
  */
 
-import { invoke as tauriInvoke } from "@aphrody/api/core";
+import { invoke as bunInvoke } from "@aphrody/api/core";
 
 export type Invoke = <T>(command: string, args?: Record<string, unknown>) => Promise<T>;
 
@@ -75,7 +75,7 @@ export interface MeasureOptions {
   saturation?: number;
 }
 
-export function createIdentityBridge(invoke: Invoke = tauriInvoke) {
+export function createIdentityBridge(invoke: Invoke = bunInvoke) {
   return {
     petState: () => invoke<PetState>("aphrody_pet_etat"),
     petFramePngBase64: (animation: string, index: number) =>

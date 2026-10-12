@@ -6,7 +6,7 @@ import {
   ensureAphrodyInitialized,
   getRagStats,
   resetAphrodyInitializationForTesting,
-} from "./tauri-bridge";
+} from "./bun-bridge";
 import { parseAgentInventory } from "./backend-inventory";
 
 const originalFetch = globalThis.fetch;

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-import type { CatalogEntry, InstalledModels } from "./tauri-bridge";
+import type { CatalogEntry, InstalledModels } from "./bun-bridge";
 
 /** Keep the two inventories independent: a failed backend is never an empty store. */
 export async function loadModelInventories(

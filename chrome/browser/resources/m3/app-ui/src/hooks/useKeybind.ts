@@ -75,7 +75,7 @@ export function useKeybind(
 		);
 
 		// If running in Tauri, also register with native side for menu accelerator display
-		if (platform.platform === 'tauri' && platform.registerKeybind) {
+		if (platform.platform === 'bun' && platform.registerKeybind) {
 			const accelerator = toTauriAccelerator(combo, currentPlatform);
 			platform.registerKeybind(keybindId, accelerator, wrappedHandler).catch(err => {
 				console.warn(`[useKeybind] Failed to register native accelerator for ${keybindId}:`, err);
@@ -85,7 +85,7 @@ export function useKeybind(
 		return () => {
 			listener.unregister(keybindId);
 
-			if (platform.platform === 'tauri' && platform.unregisterKeybind) {
+			if (platform.platform === 'bun' && platform.unregisterKeybind) {
 				platform.unregisterKeybind(keybindId).catch(() => {
 					// Ignore errors during cleanup
 				});

@@ -31,14 +31,14 @@ import {
   aphrodyReply,
   aphrodyRpc,
   ensureAphrodyInitialized,
-  isTauri,
+  isBunNative,
   aphrodySessionStream,
   copyToNativeClipboard,
   pickDirectory,
   pickFile,
-  tauriInvoke,
+  bunInvoke,
   runRagSearch,
-} from "./tauri-bridge";
+} from "./bun-bridge";
 import { buildTurnInputItems } from "./routes/explorer/ai-helpers";
 import { useChatStore } from "./stores/chat-store";
 import { TITLE_GRADIENT_STOPS } from "./brand-tokens";
@@ -1918,7 +1918,7 @@ export function CodexChatRoute() {
           data[0];
         snap.setModel(selected?.id ?? "");
         try {
-          const res = await tauriInvoke<{ cwd?: string }>("aphrody_system_cwd");
+          const res = await bunInvoke<{ cwd?: string }>("aphrody_system_cwd");
           if (active && res?.cwd && !snap.cwd) snap.setCwd(res.cwd);
         } catch {
           /* A browser host can use the backend's configured directory. */
@@ -2279,7 +2279,7 @@ export function CodexChatRoute() {
   // The native broker already broadcasts each event. Use its event bus once;
   // browser hosts use the scoped SSE stream instead of a second native channel.
   useEffect(() => {
-    if (!activeThreadId || isTauri()) return;
+    if (!activeThreadId || isBunNative()) return;
 
     let unsub: (() => void) | undefined;
     let active = true;
@@ -2312,11 +2312,9 @@ export function CodexChatRoute() {
     let unlisten: (() => void) | undefined;
     let cancelled = false;
 
-    const nativeListen = window.__TAURI__?.event?.listen ?? (isTauri() ? listen : undefined);
+    const nativeListen = isBunNative() ? window.bunmium?.listen : undefined;
     if (nativeListen) {
-      void nativeListen("aphrody://notification", ({ payload }: { payload: unknown }) =>
-        notificationHandler.current(payload),
-      )
+      void nativeListen?.("aphrody://notification", (payload: unknown) => notificationHandler.current(payload))
         .then((stop) => {
           if (cancelled) stop();
           else unlisten = stop;

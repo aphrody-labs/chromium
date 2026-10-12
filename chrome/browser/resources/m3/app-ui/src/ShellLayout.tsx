@@ -161,7 +161,7 @@ function ShellLayoutContent() {
         // M3 scaffold: the window is the surface; the navigation drawer and the
         // inspector sheet sit on surface-container-low beside the content pane.
         "app-shell text-on-surface bg-surface font-plain text-body-medium relative flex h-full min-h-0 select-none flex-col overflow-hidden border border-transparent",
-        platform.platform === "tauri" && "rounded-medium",
+        platform.platform === "bun" && "rounded-medium",
       )}
     >
       {/* Preview layer - portal target for fullscreen preview, sits between content and sidebar/inspector */}

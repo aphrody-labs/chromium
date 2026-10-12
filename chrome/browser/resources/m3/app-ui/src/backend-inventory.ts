@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-import { aphrodyRpc, ensureAphrodyInitialized } from "./tauri-bridge";
+import { aphrodyRpc, ensureAphrodyInitialized } from "./bun-bridge";
 
 export interface AgentTool {
   name: string;

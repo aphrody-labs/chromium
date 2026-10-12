@@ -26,7 +26,7 @@ import {
 import { getIcon } from "@aphrody/assets/util";
 import type { File, SdPath } from "@aphrody/drive-client";
 import { toast, Icon, Button } from "@aphrody/m3-primitives";
-import { askLocalAi } from "../../../tauri-bridge";
+import { askLocalAi } from "../../../bun-bridge";
 import { isAudioVideoEligible } from "../../../routes/explorer/ai-helpers";
 import { useAskAphrody } from "../../../routes/explorer/hooks/useAskAphrody";
 import { clsx } from "clsx";

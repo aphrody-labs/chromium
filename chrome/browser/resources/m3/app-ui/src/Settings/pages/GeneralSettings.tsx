@@ -4,10 +4,10 @@ import { AlertDialog, Icon, Switch, Button, Card } from "@aphrody/m3-primitives"
 import {
   checkForAppUpdate,
   installAppUpdate,
-  isTauri,
-  tauriInvoke,
+  isBunNative,
+  bunInvoke,
   type UpdateMetadata,
-} from "../../tauri-bridge";
+} from "../../bun-bridge";
 
 export interface GeneralSettingsBackend {
   isDesktop(): boolean;
@@ -21,14 +21,14 @@ export interface GeneralSettingsBackend {
 }
 
 const backend: GeneralSettingsBackend = {
-  isDesktop: isTauri,
+  isDesktop: isBunNative,
   readAutostart: async () => {
-    const enabled = await tauriInvoke<boolean>("plugin:autostart|is_enabled");
+    const enabled = await bunInvoke<boolean>("plugin:autostart|is_enabled");
     if (typeof enabled !== "boolean") throw new Error("État de démarrage invalide.");
     return enabled;
   },
   writeAutostart: async (enabled) => {
-    await tauriInvoke(enabled ? "plugin:autostart|enable" : "plugin:autostart|disable");
+    await bunInvoke(enabled ? "plugin:autostart|enable" : "plugin:autostart|disable");
   },
   checkUpdate: checkForAppUpdate,
   installUpdate: installAppUpdate,

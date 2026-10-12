@@ -6,7 +6,7 @@ import { Button, Card } from "@aphrody/m3-primitives";
 import type { LocationAddInput, VolumeAddCloudInput } from "@aphrody/drive-client";
 import { StudioHeader } from "./StudioHeader";
 import { useLibraryMutation } from "../../contexts/SpacedriveContext";
-import { isTauri } from "../../tauri-bridge";
+import { isBunNative } from "../../bun-bridge";
 import { authorizeGoogleDrive } from "../../studio-bridge";
 
 const buttonClass = "min-h-12 px-5 text-[18px]";
@@ -21,7 +21,7 @@ export function DriveStudio() {
   const [done, setDone] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  if (!isTauri()) {
+  if (!isBunNative()) {
     return (
       <p className="text-[18px] text-on-surface-variant">
         Le Drive dbfr nécessite l’application Aphrody.
