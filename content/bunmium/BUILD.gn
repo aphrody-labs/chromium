@@ -1,0 +1,3 @@
+source_set("bunmium_m3_content") {
+  sources = [ "m3_content_contract.h" ]
+}

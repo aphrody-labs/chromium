@@ -1,0 +1,8 @@
+# Aphrody M3 browser resources. The sources stay in Chromium's browser
+# resource layer and are consumed by the Bunmium bindings.
+group("bunmium_m3_resources") {
+  data = [
+    "README.md",
+    "manifest.json",
+  ]
+}

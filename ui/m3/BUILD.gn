@@ -1,0 +1,6 @@
+# Native M3 crates are kept in the UI layer. Cargo remains their owner; GN
+# exposes the source boundary without pretending Chromium's C++ toolchain
+# compiles Rust crates.
+group("bunmium_m3_ui") {
+  data = [ "LICENSE" ]
+}
