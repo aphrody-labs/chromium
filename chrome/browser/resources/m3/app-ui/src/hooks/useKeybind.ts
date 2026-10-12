@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { usePlatform } from '../contexts/PlatformContext';
 import type { KeybindId } from '../util/keybinds/registry';
 import { getKeybind } from '../util/keybinds/registry';
-import { getComboForPlatform, getCurrentPlatform, toTauriAccelerator } from '../util/keybinds/platform';
+import { getComboForPlatform, getCurrentPlatform, toBunAccelerator } from '../util/keybinds/platform';
 import { getWebListener } from '../util/keybinds/listener';
 
 export type KeybindHandler = () => void | Promise<void>;
@@ -76,7 +76,7 @@ export function useKeybind(
 
 		// If running in Tauri, also register with native side for menu accelerator display
 		if (platform.platform === 'bun' && platform.registerKeybind) {
-			const accelerator = toTauriAccelerator(combo, currentPlatform);
+			const accelerator = toBunAccelerator(combo, currentPlatform);
 			platform.registerKeybind(keybindId, accelerator, wrappedHandler).catch(err => {
 				console.warn(`[useKeybind] Failed to register native accelerator for ${keybindId}:`, err);
 			});

@@ -16,7 +16,7 @@ export {
 	getCurrentPlatform,
 	getComboForPlatform,
 	normalizeModifiers,
-	toTauriAccelerator,
+	toBunAccelerator,
 	toDisplayString,
 	isInputFocused,
 } from './platform';

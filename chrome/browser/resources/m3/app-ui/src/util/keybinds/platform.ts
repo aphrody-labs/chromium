@@ -51,8 +51,8 @@ export function normalizeModifiers(modifiers: Modifier[], platform: Platform): M
 	return modifiers.map(m => m === 'Cmd' ? 'Ctrl' : m);
 }
 
-// Convert to Tauri accelerator string
-export function toTauriAccelerator(combo: KeyCombo, platform: Platform): string {
+// Convert to Bun-native accelerator string
+export function toBunAccelerator(combo: KeyCombo, platform: Platform): string {
 	const normalizedModifiers = normalizeModifiers(combo.modifiers, platform);
 
 	const modifierStr = normalizedModifiers
@@ -66,7 +66,7 @@ export function toTauriAccelerator(combo: KeyCombo, platform: Platform): string 
 		})
 		.join('+');
 
-	// Convert key to Tauri format
+  // Convert key to the Bun-native accelerator format
 	let key = combo.key;
 	// Handle special cases
 	if (key === 'ArrowUp') key = 'Up' as typeof key;
