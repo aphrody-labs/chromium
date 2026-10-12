@@ -40,7 +40,6 @@
     "showcase:smoke": "cd showcase && bun ../../../../packages/engine/yolo/src/index.ts m3 bun smoke",
     "showcase:typecheck": "cd showcase && tsc -p tsconfig.json --noEmit",
     "showcase:test": "cd showcase && bun test ./test && bun run test:dom",
-    "showcase:tauri": "cd showcase && bun scripts/tauri.ts",
     "showcase:test:dom": "cd showcase && bun test --preload @aphrody/m3-config/test/dom ./test-dom"
   },
   "dependencies": {
@@ -75,7 +74,6 @@
     "@aphrody/m3-theme": "workspace:*",
     "@aphrody/m3-tokens": "workspace:*",
     "@aphrody/material-design-icons": "workspace:*",
-    "@aphrody/tauri": "file:../../../../bun/packages/bun-tauri",
     "@aphrody/qr": "workspace:*",
     "@aphrody/scaffold": "workspace:*",
     "@aphrody/web-source": "workspace:*",

@@ -8,7 +8,7 @@ import { createContext, useContext, PropsWithChildren } from "react";
  */
 export type Platform = {
 	/** Platform discriminator */
-	platform: "web" | "tauri";
+	platform: "web" | "bun";
 
 	/** Open native directory picker dialog (Tauri only) */
 	openDirectoryPickerDialog?(opts?: {
