@@ -4,7 +4,7 @@
 // the `@aphrody/m3-fonts` package. Two layouts are recognised: an Aphrody OS checkout
 // (`crates/ui/bun/icons/material-symbols`, `crates/ui/m3-tokens/fonts/google-sans-flex`) and an aphrody-m3 checkout
 // whose `packages/m3-fonts/fonts/upstream` holds the same files, pinned and fetched by
-// `bun scripts/fonts-sync.ts` (standalone, yolo and iecode checkouts). The root is discovered by
+// `bun scripts/fonts-sync.ts` (standalone and Aphrody checkouts). The root is discovered by
 // walking up from a start directory; `APHRODY_OS_ROOT` or an explicit `root` option override it.
 import { existsSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";

@@ -153,13 +153,13 @@ describe("systemd", () => {
     names.forEach((name, i) => {
       expect(
         read("systemd", `hello-m3.service.d/${String(10 + i * 10).padStart(2, "0")}-${name}`),
-      ).toBe(sharedDropin(ctx.yoloRoot, name));
+      ).toBe(sharedDropin(ctx.aphrodyRoot, name));
     });
     expect(sharedDropin("/nonexistent", "sandbox-base.conf")).toContain("ProtectSystem=strict");
-    if (existsSync(join(ctx.yoloRoot, "tools/config/host/systemd/shared/sandbox-base.conf"))) {
-      expect(sharedDropin(ctx.yoloRoot, "sandbox-base.conf")).toBe(
+    if (existsSync(join(ctx.aphrodyRoot, "tools/config/host/systemd/shared/sandbox-base.conf"))) {
+      expect(sharedDropin(ctx.aphrodyRoot, "sandbox-base.conf")).toBe(
         readFileSync(
-          join(ctx.yoloRoot, "tools/config/host/systemd/shared/sandbox-base.conf"),
+          join(ctx.aphrodyRoot, "tools/config/host/systemd/shared/sandbox-base.conf"),
           "utf8",
         ),
       );
@@ -299,7 +299,7 @@ describe("nginx", () => {
     async () => {
       const dir = tmp("m3-bun-nginx-");
       mkdirSync(join(dir, "snippets"), { recursive: true });
-      const snippet = join(ctx.yoloRoot, "tools/config/host/nginx/snippets/proxy-client-ip.inc");
+      const snippet = join(ctx.aphrodyRoot, "tools/config/host/nginx/snippets/proxy-client-ip.inc");
       writeFileSync(
         join(dir, "snippets/proxy-client-ip.inc"),
         existsSync(snippet)

@@ -4,9 +4,9 @@ import { lstat, mkdir } from "node:fs/promises";
 import { homedir } from "node:os";
 import { dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
 
-/** The yolo checkout: `$YOLO_ROOT`, else `~/yolo`. Host conventions and the runtime SDK are resolved under it. */
-export function yoloRoot(): string {
-  return resolve(Bun.env.YOLO_ROOT ?? join(homedir(), "yolo"));
+/** The Aphrody capability checkout: `$APHRODY_ROOT`, else the current user Aphrody home. */
+export function aphrodyRoot(): string {
+  return resolve(Bun.env.APHRODY_ROOT ?? join(homedir(), ".aphrody"));
 }
 
 /** `@scope/name` -> `name`; anything not a valid DNS-ish label becomes `-`. */

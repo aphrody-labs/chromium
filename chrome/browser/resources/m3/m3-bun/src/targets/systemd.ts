@@ -31,8 +31,8 @@ export const SHARED_DROPINS: ReadonlyArray<readonly [string, string]> = [
 ];
 
 /** A shared drop-in from `<yolo>/tools/config/host/systemd/shared`, else the embedded text. */
-export function sharedDropin(yoloRoot: string, file: string): string {
-  const path = join(yoloRoot, "tools/config/host/systemd/shared", file);
+export function sharedDropin(aphrodyRoot: string, file: string): string {
+  const path = join(aphrodyRoot, "tools/config/host/systemd/shared", file);
   if (existsSync(path)) return readFileSync(path, "utf8");
   return SHARED_DROPINS.find(([name]) => name === file)![1];
 }
@@ -83,7 +83,7 @@ export const systemd: Target = {
   generate(c): GeneratedFile[] {
     const dropins: GeneratedFile[] = SHARED_DROPINS.map(([name], i) => ({
       path: `${c.name}.service.d/${String(10 + i * 10).padStart(2, "0")}-${name}`,
-      content: sharedDropin(c.yoloRoot, name),
+    content: sharedDropin(c.aphrodyRoot, name),
     }));
     return [
       { path: `${c.name}.service`, content: unit(c) },

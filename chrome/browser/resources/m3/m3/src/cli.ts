@@ -280,16 +280,7 @@ export async function runCli(
     !argv.includes("--help") &&
     !argv.includes("-h")
   ) {
-    const workspace = findWorkspaceRoot(cwd);
-    const candidate =
-      workspace &&
-      (workspaceCheckScript(workspace) === "check" ? workspace : join(workspace, "m3"));
-    const entry = candidate && join(candidate, "scripts/yolo.ts");
-    if (!entry || !existsSync(entry))
-      throw new Error(
-        `m3 ${maintenance}: no M3 capability-owner task runner above the selected workspace`,
-      );
-    return run(["bun", entry, maintenance!, ...argv.slice(1)], candidate!);
+    throw new Error(`m3 ${maintenance}: use the Aphrody workspace task runner`);
   }
   const { command, flags, positionals } = parseArgs(argv);
   switch (command) {
