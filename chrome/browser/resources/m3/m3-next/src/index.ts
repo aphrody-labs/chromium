@@ -84,9 +84,9 @@ export interface WithM3Options {
   /** Typed routes (`typedRoutes`): `Link` hrefs and `redirect` are checked against `app/`. */
   typedRoutes?: boolean;
   /**
-   * Static export for a Tauri webview: `output: "export"`, unoptimized images, trailing slashes, no Cache
+   * Static export for a Bun-native Chromium surface: `output: "export"`, unoptimized images, trailing slashes, no Cache
    * Components, and `NEXT_PUBLIC_M3_STATIC=1` so `M3Html` / `M3Root` stop reading the request cookie (there is no server).
-   * `true` always, `"auto"` when the Tauri CLI runs the build (`TAURI_ENV_PLATFORM` is set), or the options.
+   * `true` always, `"auto"` when the Bun-native host runs the build, or the options.
    * `proxy.ts`, route handlers and `cookies()` do not exist in an export; the theme preference lives in the cookie
    * the client writes and the pre-paint script reads.
    */
@@ -286,7 +286,7 @@ export function rootDeclarations(css: string): ColorRoleMap {
  * Inline script that applies the theme before first paint, so Tailwind `dark:` utilities and the M3 roles never
  * flash. It reads the preference cookie (`light`, `dark` or `system`; absent means `system`) and sets the `.dark` /
  * `.light` classes and `color-scheme` on `<html>`; `system` resolves `prefers-color-scheme`. Because the cookie is
- * read in the browser, the shell can stay static (Cache Components, Tauri static export) and still honour a saved
+ * read in the browser, the shell can stay static (Cache Components, Bun-native static export) and still honour a saved
  * preference.
  */
 export function colorSchemeScript(cookieName: string = M3_THEME_COOKIE): string {
