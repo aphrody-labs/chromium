@@ -5,9 +5,9 @@
  * | Template  | Output                                           | Used by                          |
  * | --------- | ------------------------------------------------ | -------------------------------- |
  * | `web`     | Bun + M3 web project                             | `m3 new`                         |
- * | `app`     | Bun + React app, desktop (Tauri 3) or web       | `next-migrate`, `example`        |
+ * | `app`     | Bun + React app                                | `next-migrate`, `example`        |
  * | `spa`     | Bun + React SPA on TanStack Router, served by m3-bun | `aphrody-scaffold new spa`   |
- * | `example` | the canonical example: `app` + Tauri 3 + M3      | docs, CI, `aphrody-scaffold`     |
+ * | `example` | the canonical Bun-native app + M3              | docs, CI, `aphrody-scaffold`     |
  *
  */
 import { assertNativeShellOwner, assertPrivateOwnerWorkspace } from "./workspace";
@@ -34,7 +34,7 @@ export {
 /** Name of the canonical example project. */
 export const EXAMPLE_NAME = "aphrody-example";
 
-/** The single example: a Tauri 3 desktop app on the M3 packages. Everything else is generated from it. */
+/** The single Bun-native example on the M3 packages. Everything else is generated from it. */
 export function exampleFiles(name = EXAMPLE_NAME): FileMap {
   return {
     ...appFiles({ name, target: "bun", modernizeM3: true }),

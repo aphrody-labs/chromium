@@ -27,8 +27,8 @@ export function npmName(text: string): string | null {
   return out || null;
 }
 
-/** Reverse-DNS Tauri identifier `<prefix>.<segment>`; a segment never starts with a digit. */
-export function tauriIdentifier(seed: string, prefix = "io.aphrody.app"): string {
+/** Reverse-DNS Bun-native app identifier `<prefix>.<segment>`. */
+export function bunIdentifier(seed: string, prefix = "io.aphrody.app"): string {
   const segment = slug(seed).replace(/^(\d)/, "s$1");
   return `${prefix}.${segment}`;
 }

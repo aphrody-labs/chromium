@@ -64,8 +64,7 @@ export type Rgba = readonly [number, number, number, number];
 export const DEFAULT_ICON_COLOR: Rgba = [0x67, 0x50, 0xa4, 0xff];
 
 /**
- * Solid-colour RGBA PNG. `tauri::generate_context!` refuses to compile without `icons/icon.png`;
- * this keeps a fresh project buildable until the app runs `tauri icon` with its own artwork.
+ * Solid-colour RGBA PNG used as the default Bun-native app artwork.
  * 256 px is the smallest size `isUsableAppIcon` accepts.
  */
 export function solidIconPng(size = 256, rgba: Rgba = DEFAULT_ICON_COLOR): Uint8Array {
@@ -113,7 +112,7 @@ export function pngInfo(bytes: Uint8Array): PngInfo | null {
   };
 }
 
-/** `tauri::generate_context!` accepts a square 8-bit RGBA PNG of at least 256 px as the app icon. */
+/** Returns a square 8-bit RGBA PNG of at least 256 px as the app icon. */
 export function isUsableAppIcon(bytes: Uint8Array): boolean {
   const info = pngInfo(bytes);
   return (
