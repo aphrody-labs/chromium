@@ -27,19 +27,14 @@ export interface NextMigrateContextValue {
   openExternal: (url: string) => Promise<void>;
 }
 
-/** Minimal window surface used to hand external URLs to the OS (Tauri plugins or the browser). */
+/** Minimal window surface used to hand external URLs to the Bun-native host or browser. */
 export interface ExternalOpenerWindow {
-  __TAURI__?: {
-    opener?: { openUrl?: (url: string) => Promise<void> };
-    shell?: { open?: (url: string) => Promise<void> };
-  };
-  __TAURI_PLUGIN_SHELL__?: { open?: (url: string) => Promise<void> };
+  bunmium?: { invoke?: (command: string, args?: unknown) => Promise<unknown> };
   open: (url: string, target: string, features: string) => unknown;
 }
 
 /**
- * Open `url` outside the app. Tauri 3 apps expose `plugin-opener` (`openUrl`), Tauri 2 apps `plugin-shell`
- * (`open`); anything else falls back to `window.open`.
+ * Open `url` outside the app through Bunmium; anything else falls back to `window.open`.
  */
 export async function openExternalUrl(
   url: string,
@@ -49,14 +44,8 @@ export async function openExternalUrl(
   if (!win) return;
   if (mode === "bun") {
     try {
-      const opener = win.__TAURI__?.opener;
-      if (opener?.openUrl) {
-        await opener.openUrl(url);
-        return;
-      }
-      const shell = win.__TAURI__?.shell ?? win.__TAURI_PLUGIN_SHELL__;
-      if (shell?.open) {
-        await shell.open(url);
+      if (win.bunmium?.invoke) {
+        await win.bunmium.invoke("window.open_external", { url });
         return;
       }
     } catch {

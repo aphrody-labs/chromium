@@ -69,7 +69,7 @@ async function main(args: string[]): Promise<number> {
 
   let sourcePath = "";
   let targetPath = "";
-  let target: "tauri" | "vite" = "tauri";
+  let target: "bun" = "bun";
   let projectName = "migrated-app";
   let scanOnly = false;
   let dryRun = false;
@@ -82,8 +82,7 @@ async function main(args: string[]): Promise<number> {
     const arg = args[i];
     if (arg === "-t" || arg === "--target") {
       const value = args[++i];
-      if (value !== "vite" && value !== "tauri")
-        throw new Error("--target requires tauri or vite (native Bun web)");
+      if (value !== "bun") throw new Error("--target requires bun");
       target = value;
     } else if (arg === "--name") {
       projectName = args[++i] || projectName;
@@ -260,12 +259,7 @@ async function main(args: string[]): Promise<number> {
   console.log(`\nNext Steps:`);
   console.log(`  cd ${targetPath}`);
   console.log(`  bun install`);
-  if (target === "tauri") {
-    console.log(`  bun run tauri:dev   # Desktop GUI with pinned Tauri 3`);
-    console.log(`  bun run dev:bun     # Desktop native backend with Bun.serve`);
-  } else {
-    console.log(`  bun run dev`);
-  }
+  console.log(`  bun run dev`);
   return 0;
 }
 
