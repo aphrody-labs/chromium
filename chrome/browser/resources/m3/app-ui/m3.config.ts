@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
-// The Tauri webview of crates/ui/app.
-//   m3 dev            -> http://localhost:1421 (tauri.conf.json build.devUrl)
-//   m3 build --tauri  -> crates/ui/app/ui-dist (index.html, app.js, app.css, fonts/)
+// Bun-native Chromium WebUI surface.
+//   m3 dev   -> http://localhost:1421
+//   m3 build -> Bun output consumed by Chromium resources.
 import { defineM3Config } from "@aphrody/m3/config";
 
 import { appServerProxy } from "./backend";
@@ -10,7 +10,6 @@ export default defineM3Config({
   proxy: appServerProxy(),
   entry: "src/index.html",
   port: 1421,
-  tauri: { uiDist: "../../../crates/ui/app/ui-dist" },
   drop: ["debugger"],
   optimizeImports: [
     "@phosphor-icons/react",
