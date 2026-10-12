@@ -17,7 +17,6 @@ import { nginx } from "./nginx.ts";
 import { osThemes } from "./os-themes.ts";
 import { release } from "./release.ts";
 import { systemd } from "./systemd.ts";
-import { tauri } from "./tauri.ts";
 import type { Target, TargetContext } from "./types.ts";
 import { vercel } from "./vercel.ts";
 import { vscode } from "./vscode.ts";
@@ -40,7 +39,6 @@ export const TARGETS: readonly Target[] = [
   vscode,
   windows,
   linuxImage,
-  tauri,
   webos,
   lambda,
   osThemes,

@@ -8,7 +8,6 @@
     "m3-design", "m3-explorer", "m3-fonts", "m3-forms", "m3-front",
     "m3-icons", "m3-mcp", "m3-motion", "m3-next", "m3-next-migrate",
     "m3-os-themes", "m3-primitives", "m3-react", "m3-reader", "m3-tailwind",
-    "m3-theme", "m3-tokens", "material-design-icons", "rg-ui", "scaffold",
-    "web-to-tauri"
+    "m3-theme", "m3-tokens", "material-design-icons", "rg-ui", "scaffold"
   ]
 }
