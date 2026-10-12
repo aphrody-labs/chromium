@@ -6,7 +6,7 @@ export default defineM3Config({
   entry: "src/index.html",
   theme: { seed: "#8c6c88", variant: "tonalSpot" },
   port: 3300,
-  tauri: { uiDist: "dist" },
+  bun: { uiDist: "dist" },
 });
 
 // m3-bun: the API lives in src/api and is served next to the UI by the same Bun process; the deploy section only

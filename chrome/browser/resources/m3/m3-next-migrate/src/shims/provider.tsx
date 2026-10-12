@@ -112,7 +112,7 @@ export function NextMigrateProvider({
     window.addEventListener("hashchange", handleLocationChange);
     handleLocationChange();
 
-    // Synchronize document.title to Tauri desktop window
+    // Synchronize document.title to the Bun-native window
     if (typeof document !== "undefined") {
       if (document.title) {
         setWindowTitle(document.title);

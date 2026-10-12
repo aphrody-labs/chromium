@@ -24,7 +24,7 @@ export async function bunInvoke<T = unknown>(
 
 /**
  * Creates a client-side wrapper for a Next.js Server Action that delegates
- * to a Tauri native command when in desktop mode, or to a fallback / fetch endpoint in Vite.
+ * to a Bun-native command in host mode, or to a fallback / fetch endpoint in the browser.
  */
 export function createServerActionBridge<TArgs = any, TResult = any>(
   actionName: string,

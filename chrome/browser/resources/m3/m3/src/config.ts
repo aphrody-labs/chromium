@@ -5,7 +5,7 @@
 //   export default defineM3Config({
 //     entry: "src/index.html",
 //     proxy: { "/rpc": "http://localhost:8080" },
-//     tauri: { uiDist: "../../../crates/ui/app/ui-dist" },
+//     bun: { uiDist: "../../../chrome/browser/resources/m3/app-ui/dist" },
 //     theme: { seed: "#6750a4", variant: "tonalSpot" },
 //   });
 //
@@ -26,7 +26,7 @@ export interface M3ThemeConfig {
 }
 
 export interface M3BunConfig {
-  /** Output directory of the Tauri webview (`frontendDist`). */
+  /** Output directory of the Bun-native Chromium surface. */
   uiDist: string;
 }
 
@@ -58,7 +58,7 @@ export interface M3Config {
   minify?: boolean | { whitespace?: boolean; syntax?: boolean; identifiers?: boolean };
   /** Modules with barrel files whose unused exports should be skipped during bundling. */
   optimizeImports?: string[];
-  /** Tauri webview build (`m3 build --tauri`). */
+  /** Bun-native Chromium resource build (`m3 build --bun`). */
   bun?: M3BunConfig;
   /** Inputs of the `m3:theme.css` virtual sheet. */
   theme?: M3ThemeConfig;

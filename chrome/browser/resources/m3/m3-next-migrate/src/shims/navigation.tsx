@@ -28,7 +28,7 @@ export function useRouter(): AppRouterInstance {
         ctx.navigate(href, { replace: true, scroll: options?.scroll });
       },
       prefetch: (_href: string) => {
-        // No-op in client SPA / Tauri webview
+        // No-op in client SPA / Bun-native surface
       },
     }),
     [ctx],

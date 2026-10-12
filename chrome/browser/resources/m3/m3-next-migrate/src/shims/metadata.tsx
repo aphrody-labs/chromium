@@ -97,7 +97,7 @@ export function setMetaTag(nameOrProperty: string, content: string): void {
 }
 
 /**
- * Synchronize full Metadata object to document head and Tauri window
+ * Synchronize full Metadata object to document head and Bun-native window
  */
 export async function syncMetadata(meta: Metadata): Promise<void> {
   if (!meta) return;
@@ -142,7 +142,7 @@ export async function syncMetadata(meta: Metadata): Promise<void> {
 }
 
 /**
- * React Hook to synchronize metadata (static or computed) to document.title & Tauri window
+ * React Hook to synchronize metadata (static or computed) to document.title & Bun-native window
  */
 export function useMetadata(
   metadataOrFn: Metadata | (() => Metadata | Promise<Metadata>),
