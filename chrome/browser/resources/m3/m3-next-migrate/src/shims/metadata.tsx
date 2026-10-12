@@ -60,7 +60,7 @@ export function resolveTitle(
 /**
  * Synchronize window title:
  * 1. Updates document.title
- * 2. If running inside Tauri v2, sets the native Tauri window title via getCurrentWindow().setTitle(title)
+ * 2. If running inside the Bun-native host, forwards the title to Chromium.
  */
 export async function setWindowTitle(title: string): Promise<void> {
   if (!title) return;
@@ -69,23 +69,13 @@ export async function setWindowTitle(title: string): Promise<void> {
   }
   if (typeof window !== "undefined") {
     try {
-      const tauri = (window as any).__TAURI__;
-      if (tauri?.window?.getCurrentWindow) {
-        await tauri.window.getCurrentWindow().setTitle(title);
-        return;
-      }
-      if (tauri?.core?.invoke) {
-        await tauri.core.invoke("plugin:window|set_title", { title });
-        return;
-      }
-      // Dynamic import fallback for Tauri v2 ESM
-      const tauriWindowModule = (window as any).__TAURI_WINDOW_API__;
-      if (tauriWindowModule?.getCurrentWindow) {
-        await tauriWindowModule.getCurrentWindow().setTitle(title);
+      const bunmium = (window as any).bunmium;
+      if (bunmium?.invoke) {
+        await bunmium.invoke("window.set_title", { title });
         return;
       }
     } catch {
-      // Ignored outside Tauri runtime
+      // Ignored outside the Bun-native host.
     }
   }
 }

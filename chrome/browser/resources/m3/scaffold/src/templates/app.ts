@@ -1,18 +1,14 @@
 // SPDX-License-Identifier: Apache-2.0
 /** Native Bun + React app with the Next shims; the legacy vite target names the web host. */
 import type { FileMap } from "../files.ts";
-import { TAURI_3 } from "../pins.ts";
-import { tauriShell, type TauriShellOptions } from "../tauri.ts";
 
 export interface AppTemplateOptions {
   name: string;
-  target?: "tauri" | "vite";
+  target?: "bun";
   modernizeM3?: boolean;
   appTsx?: string;
   /** Dependencies qualified by the private source owner before app creation. */
   dependencies?: Record<string, string>;
-  /** Pure source planning for a separately registered canonical Rust shell owner. */
-  tauri?: Partial<TauriShellOptions>;
 }
 
 const DEFAULT_APP = `// SPDX-License-Identifier: Apache-2.0
@@ -27,8 +23,7 @@ export default function App() {
 `;
 
 export function appFiles(options: AppTemplateOptions): FileMap {
-  const { name, target = "tauri", modernizeM3 = false } = options;
-  const tauri = target === "tauri";
+  const { name, target = "bun", modernizeM3 = false } = options;
   const pkg = {
     name,
     version: "1.0.0",
@@ -57,9 +52,6 @@ export function appFiles(options: AppTemplateOptions): FileMap {
             "@aphrody/m3-tokens": "workspace:*",
           }
         : {}),
-      ...(tauri
-        ? { "@aphrody/api": TAURI_3.jsApi, "@aphrody/plugin-opener": TAURI_3.jsPluginOpener }
-        : {}),
     },
     devDependencies: {
       "@types/bun": "catalog:",
@@ -67,7 +59,6 @@ export function appFiles(options: AppTemplateOptions): FileMap {
       "@types/react-dom": "catalog:",
       "@aphrody/m3-config": "workspace:*",
       typescript: "catalog:",
-      ...(tauri ? { "@tauri-apps/cli": TAURI_3.jsCli } : {}),
     },
     engines: { bun: ">=1.4.2" },
   };
@@ -107,27 +98,5 @@ createRoot(container).render(
     "src/App.tsx": options.appTsx ?? DEFAULT_APP,
     ".gitignore": "node_modules/\ndist/\nbin/\n",
   };
-  if (tauri) {
-    const slug = name.toLowerCase().replace(/[^a-z0-9]/g, "");
-    Object.assign(
-      files,
-      tauriShell({
-        name,
-        identifier: `com.aphrody.${slug}`,
-        build: {
-          beforeDevCommand: "bun run dev",
-          devUrl: "http://localhost:1420",
-          beforeBuildCommand: "bun run build",
-          frontendDist: "../dist",
-        },
-        window: { mode: "config", title: name, width: 1200, height: 800, resizable: true },
-        withGlobalTauri: true,
-        openerPlugin: true,
-        serde: true,
-        capabilitySchema: true,
-        ...options.tauri,
-      }),
-    );
-  }
   return files;
 }

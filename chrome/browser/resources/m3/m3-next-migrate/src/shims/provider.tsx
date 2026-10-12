@@ -12,7 +12,7 @@ import {
 } from "react";
 import { setWindowTitle } from "./metadata";
 
-export type RouterMode = "tauri" | "vite" | "browser";
+export type RouterMode = "bun" | "browser";
 export type RouteParams = Record<string, string | string[]>;
 
 export interface NextMigrateContextValue {
@@ -47,7 +47,7 @@ export async function openExternalUrl(
   win: ExternalOpenerWindow | undefined,
 ): Promise<void> {
   if (!win) return;
-  if (mode === "tauri") {
+  if (mode === "bun") {
     try {
       const opener = win.__TAURI__?.opener;
       if (opener?.openUrl) {
@@ -94,14 +94,14 @@ const NO_PARAMS: RouteParams = {};
 export function NextMigrateProvider({
   children,
   initialPath,
-  mode = "tauri",
+  mode = "bun",
   useHashRouting,
   params = NO_PARAMS,
   onNavigate,
 }: NextMigrateProviderProps) {
   const isHash =
     useHashRouting ??
-    (mode === "tauri" || (typeof window !== "undefined" && window.location.protocol === "file:"));
+    mode === "bun";
   const parseLocation = useCallback((): { pathname: string; search: string } => {
     if (typeof window === "undefined") return pathParts(initialPath ?? "/");
     if (isHash) return pathParts(window.location.hash.replace(/^#/, ""));

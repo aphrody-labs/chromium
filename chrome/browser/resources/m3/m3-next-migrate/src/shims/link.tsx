@@ -63,7 +63,7 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(function Link(
     if (e.defaultPrevented) return;
 
     if (external) {
-      if (ctx.mode === "tauri") {
+      if (ctx.mode === "bun") {
         e.preventDefault();
         void ctx.openExternal(hrefString);
       }

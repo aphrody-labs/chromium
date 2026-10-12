@@ -1,5 +1,5 @@
 /**
- * Cross-runtime M3 contract consumed by Bun, React, Material Web and Tauri.
+ * Cross-runtime M3 contract consumed by Bun, React and Material Web.
  * Rust consumers use the equivalent `aphrody_m3_tokens::adaptive::Breakpoint`
  * enum and its `navigation`/`recommended_panes` methods.
  */
@@ -36,5 +36,5 @@ export const M3_PLATFORM_CONTRACT = Object.freeze({
   baseGridDp: 4,
   mediumMarginDp: 24,
   compactMarginDp: 16,
-  platformAdapters: ["tauri-cef", "windows-11", "gnome-libadwaita", "cosmic"],
+  platformAdapters: ["bunmium-chromium", "windows-11", "gnome-libadwaita", "cosmic"],
 });

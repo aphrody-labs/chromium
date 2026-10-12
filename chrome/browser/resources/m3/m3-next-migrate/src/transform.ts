@@ -4,7 +4,7 @@ import { matching, skippedSpans } from "@aphrody/next-bun/codemods/lex";
 
 export interface TransformOptions {
   /** Target execution environment: 'tauri' desktop or 'vite' web SPA */
-  target?: "tauri" | "vite";
+  target?: "bun";
   /** Path or package specifier for shims (e.g. '@aphrody/m3-next-migrate/shims' or './shims') */
   shimModule?: string;
   /** Strip 'use client' and 'use server' directives */
@@ -61,7 +61,7 @@ export function transformComponent(
   options: TransformOptions = {},
 ): TransformResult {
   const {
-    target = "tauri",
+    target = "bun",
     shimModule = "@aphrody/m3-next-migrate/shims",
     stripDirectives = true,
     rewriteEnv = true,

@@ -571,8 +571,8 @@ export async function runCli(
         );
       const name = str(flags, "name");
       const t = str(flags, "target");
-      if (t !== undefined && t !== "tauri" && t !== "vite")
-        throw new Error(`--target must be tauri or vite, got ${t}`);
+      if (t !== undefined && t !== "bun")
+        throw new Error(`--target must be bun, got ${t}`);
       const report = await createApp({
         template: template as "web" | "app" | "spa" | "example",
         dir: resolve(cwd, dir),

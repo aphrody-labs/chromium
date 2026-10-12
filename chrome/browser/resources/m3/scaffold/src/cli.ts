@@ -9,10 +9,10 @@ const HELP = `aphrody-scaffold: the single project scaffolder of the UI stack.
 USAGE
   aphrody-scaffold list
   aphrody-scaffold example <dir>
-  aphrody-scaffold new <web|app|spa> <dir> [--name <text>] [--target tauri|vite] [--m3] [--m3-version <x.y.z>]
+  aphrody-scaffold new <web|app|spa> <dir> [--name <text>] [--target bun] [--m3] [--m3-version <x.y.z>]
 
 The directory must be a new or empty declared member of the Aphrody/M3 private owner workspace.
---target vite selects the native Bun web host. Tauri activation requires its registered Rust owner and Workspace factory.
+--target bun selects the canonical Bun-native host.
 No file is overwritten; no install or network access.`;
 
 async function main(argv: string[]): Promise<number> {
@@ -41,7 +41,7 @@ async function main(argv: string[]): Promise<number> {
       request = {
         template,
         name,
-        target: flags.get("target") === "vite" ? "vite" : "tauri",
+        target: "bun",
         modernizeM3: flags.has("m3"),
       };
     else if (template === "spa") request = { template, name };

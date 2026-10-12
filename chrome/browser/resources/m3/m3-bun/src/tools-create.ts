@@ -11,8 +11,8 @@ export interface CreateOptions {
   dir: string;
   /** npm name (default: from the directory name). */
   name?: string;
-  /** `app` template: `vite` (native Bun web, default) or `tauri`. */
-  target?: "tauri" | "vite";
+  /** `app` template: the canonical Bun-native host. */
+  target?: "bun";
   /** List the files instead of writing them. */
   dryRun?: boolean;
 }
@@ -38,7 +38,7 @@ function scaffoldRequest(options: CreateOptions, name: string, scaffold: Scaffol
     case "example":
       return { template: "example", name };
     case "app":
-      return { template: "app", name, target: options.target ?? "vite", modernizeM3: true };
+      return { template: "app", name, target: options.target ?? "bun", modernizeM3: true };
     case "spa":
       return { template: "spa", name };
     case "web":

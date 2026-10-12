@@ -16,7 +16,7 @@ export { TAURI_3 };
 
 export interface ScaffoldOptions {
   projectName?: string;
-  target?: "tauri" | "vite";
+  target?: "bun";
   outDir: string;
   modernizeM3?: boolean;
   hierarchy?: RouteHierarchy;
@@ -27,7 +27,7 @@ export interface ScaffoldOptions {
 export async function scaffoldTargetProject(options: ScaffoldOptions): Promise<void> {
   const {
     projectName = "migrated-app",
-    target = "tauri",
+    target = "bun",
     outDir,
     modernizeM3 = false,
     hierarchy,

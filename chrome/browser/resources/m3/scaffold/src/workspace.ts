@@ -63,9 +63,6 @@ export function assertPrivateOwnerWorkspace(outDir: string): void {
     );
 }
 
-export function assertNativeShellOwner(target: "tauri" | "vite"): void {
-  if (target === "tauri")
-    throw new Error(
-      "A canonical registered Aphrody Rust shell owner and Workspace build factory are required before Tauri activation; use the native Bun web target to inspect frontend behavior",
-    );
+export function assertNativeShellOwner(target: "bun"): void {
+  if (target !== "bun") throw new Error(`Unsupported native target: ${target}`);
 }

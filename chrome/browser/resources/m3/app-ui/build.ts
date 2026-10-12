@@ -20,7 +20,6 @@ const escape = (value: string) =>
 
 if (import.meta.main) {
   const config = await loadM3Config(import.meta.dir);
-  if (!config.tauri) throw new Error("app-ui: m3.config.ts must set tauri.uiDist");
   const dev = process.argv.includes("--dev");
   const { values } = parseArgs({
     args: process.argv.slice(2),
@@ -30,7 +29,6 @@ if (import.meta.main) {
       "public-assets": { type: "boolean" },
     },
   });
-  const tauri = values.out ? { ...config.tauri, uiDist: resolve(values.out) } : config.tauri;
   if (values["public-assets"] && !values.out)
     throw new Error("--public-assets requires an isolated --out artifact directory");
   const assets = values["public-assets"]
@@ -65,7 +63,6 @@ if (import.meta.main) {
     drop: config.drop,
     minify: config.minify,
     optimizeImports: config.optimizeImports,
-    tauri,
     plugin: false,
     plugins: [
       m3Bun({ theme: config.theme, root: config.root, configDir: config.dir }),

@@ -99,7 +99,7 @@ export async function migrateProject(
     sourceDir,
     targetDir,
     projectName = "migrated-app",
-    target = "tauri",
+    target = "bun",
     scaffold = true,
     dryRun = false,
     modernizeM3 = false,

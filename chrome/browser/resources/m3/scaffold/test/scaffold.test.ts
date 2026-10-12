@@ -71,7 +71,7 @@ describe("pins", () => {
 
 describe("app template", () => {
   it("generates a Tauri 3 project on the CEF runtime", () => {
-    const files = appFiles({ name: "Demo App", target: "tauri" });
+    const files = appFiles({ name: "Demo App", target: "bun" });
     const pkg = JSON.parse(text(files["package.json"]));
     expect(pkg.dependencies["@aphrody/api"]).toBe(TAURI_3.jsApi);
     expect(pkg.dependencies["@aphrody/plugin-opener"]).toBe(TAURI_3.jsPluginOpener);
