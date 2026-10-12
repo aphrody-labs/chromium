@@ -12,7 +12,7 @@ export default m3Package({
     "src/shims/dynamic.tsx",
     "src/shims/headers.ts",
     "src/shims/form.tsx",
-    "src/shims/tauri-ipc.ts",
+    "src/shims/bun-ipc.ts",
     "src/shims/provider.tsx",
     "src/shims/metadata.tsx",
     "src/shims/server.ts",

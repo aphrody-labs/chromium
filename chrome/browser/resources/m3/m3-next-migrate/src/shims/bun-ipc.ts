@@ -1,24 +1,24 @@
 // SPDX-License-Identifier: Apache-2.0
 /**
- * Tauri v2 IPC Bridge for Next.js Server Actions and API Routes
+ * Bun-native IPC bridge for Next.js Server Actions and API Routes.
  */
 
-export interface TauriInvokeOptions {
+export interface BunInvokeOptions {
   headers?: Record<string, string>;
 }
 
-export async function tauriInvoke<T = unknown>(
+export async function bunInvoke<T = unknown>(
   cmd: string,
   args?: Record<string, unknown>,
 ): Promise<T> {
   if (typeof window !== "undefined") {
-    const tauri = (window as any).__TAURI__?.core || (window as any).__TAURI_INTERNALS__;
-    if (tauri?.invoke) {
-      return await tauri.invoke(cmd, args);
+    const runtime = (window as any).bunmium;
+    if (runtime?.invoke) {
+      return await runtime.invoke(cmd, args);
     }
   }
   throw new Error(
-    `Tauri invoke not available for command "${cmd}". Ensure Tauri runtime is initialized.`,
+    `Bun invoke not available for command "${cmd}". Ensure Bunmium runtime is initialized.`,
   );
 }
 
@@ -29,22 +29,19 @@ export async function tauriInvoke<T = unknown>(
 export function createServerActionBridge<TArgs = any, TResult = any>(
   actionName: string,
   options?: {
-    tauriCommand?: string;
+    bunCommand?: string;
     endpoint?: string;
     localFallback?: (args: TArgs) => Promise<TResult>;
   },
 ): (args: TArgs) => Promise<TResult> {
-  const tauriCmd = options?.tauriCommand || `action_${actionName.replace(/[^a-zA-Z0-9_]/g, "_")}`;
+  const bunCmd = options?.bunCommand || `action_${actionName.replace(/[^a-zA-Z0-9_]/g, "_")}`;
   const endpoint = options?.endpoint || `/api/actions/${actionName}`;
 
   return async (args: TArgs): Promise<TResult> => {
-    // 1. Try Tauri native invoke
-    if (
-      typeof window !== "undefined" &&
-      ((window as any).__TAURI__ || (window as any).__TAURI_INTERNALS__)
-    ) {
+    // 1. Try Bun-native invoke
+    if (typeof window !== "undefined" && (window as any).bunmium) {
       try {
-        return await tauriInvoke<TResult>(tauriCmd, { payload: args });
+        return await bunInvoke<TResult>(bunCmd, { payload: args });
       } catch (err: any) {
         if (!options?.localFallback && !options?.endpoint) {
           throw err;
@@ -71,7 +68,7 @@ export function createServerActionBridge<TArgs = any, TResult = any>(
     }
 
     throw new Error(
-      `Unable to execute Server Action "${actionName}". Neither Tauri IPC nor HTTP endpoint is available.`,
+      `Unable to execute Server Action "${actionName}". Neither Bun IPC nor HTTP endpoint is available.`,
     );
   };
 }

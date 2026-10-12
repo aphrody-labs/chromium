@@ -5,7 +5,7 @@ import { useM3Theme } from "./react";
 
 declare global {
   interface Window {
-    __TAURI_INTERNALS__?: {
+    bunmium?: {
       invoke: (cmd: string, args?: any) => Promise<any>;
       transformCallback: (callback?: (response: any) => void, once?: boolean) => number;
       unregisterCallback: (id: number) => void;
@@ -15,13 +15,13 @@ declare global {
 
 /** Whether the page runs inside a Tauri webview (false during SSR). */
 function detectTauri(): boolean {
-  return typeof window !== "undefined" && window.__TAURI_INTERNALS__ !== undefined;
+  return typeof window !== "undefined" && window.bunmium !== undefined;
 }
 
 /** Invoke a Tauri window command, ignoring failures (restricted capability, browser preview). */
 function invokeWindow(command: string, args?: Record<string, unknown>): Promise<unknown> {
   return (
-    window.__TAURI_INTERNALS__?.invoke(command, args).catch(() => undefined) ??
+    window.bunmium?.invoke(command, args).catch(() => undefined) ??
     Promise.resolve(undefined)
   );
 }
@@ -159,7 +159,7 @@ export function M3TauriTitlebar({
     >
       {/* Drag region covering the titlebar */}
       <div
-        data-tauri-drag-region
+        data-bun-drag-region
         style={{
           position: "absolute",
           top: 0,

@@ -46,9 +46,9 @@
       "default": "./dist/react.js"
     },
     "./tauri": {
-      "bun": "./src/tauri.tsx",
-      "import": "./src/tauri.tsx",
-      "types": "./src/tauri.tsx",
+      "bun": "./src/bun.tsx",
+      "import": "./src/bun.tsx",
+      "types": "./src/bun.tsx",
       "default": "./dist/tauri.js"
     },
     "./tokens.css": "./tokens.css",

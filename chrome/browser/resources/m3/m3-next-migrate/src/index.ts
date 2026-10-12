@@ -56,7 +56,7 @@ export {
 } from "./shims/dynamic";
 export { cookies, headers, type RequestCookie, type ReadonlyRequestCookies } from "./shims/headers";
 export { Form, default as FormComponent, type FormProps } from "./shims/form";
-export { tauriInvoke, createServerActionBridge, type TauriInvokeOptions } from "./shims/tauri-ipc";
+export { bunInvoke, createServerActionBridge, type BunInvokeOptions } from "./shims/bun-ipc";
 export {
   setWindowTitle,
   setMetaTag,
