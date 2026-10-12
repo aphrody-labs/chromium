@@ -40,10 +40,10 @@ describe("parseArgs", () => {
     });
   });
 
-  test("--tauri takes an optional directory", () => {
-    expect(parseArgs(["build", "--tauri"]).flags).toEqual({ tauri: true });
-    expect(parseArgs(["build", "--tauri", "--dev"]).flags).toEqual({ tauri: true, dev: true });
-    expect(parseArgs(["build", "--tauri", "../ui-dist"]).flags).toEqual({ tauri: "../ui-dist" });
+  test("--bun takes an optional directory", () => {
+    expect(parseArgs(["build", "--bun"]).flags).toEqual({ bun: true });
+    expect(parseArgs(["build", "--bun", "--dev"]).flags).toEqual({ bun: true, dev: true });
+    expect(parseArgs(["build", "--bun", "../ui-dist"]).flags).toEqual({ bun: "../ui-dist" });
   });
 
   test("help, version, errors and positionals", () => {
@@ -81,12 +81,12 @@ describe("parseArgs", () => {
 });
 
 describe("runCli", () => {
-  test("m3 build --tauri <dir> on the fixture app", async () => {
+  test("m3 build --bun <dir> on the fixture app", async () => {
     await using tmp = await tempDir();
     const uiDist = join(tmp.dir, "ui");
     // m3.plain.config.ts: the fixture without m3:theme.css (the CLI takes no generator injection).
     expect(
-      await runCli(["build", "--tauri", uiDist, "--config", "m3.plain.config.ts"], FIXTURE),
+      await runCli(["build", "--bun", uiDist, "--config", "m3.plain.config.ts"], FIXTURE),
     ).toBe(0);
     expect((await readdir(uiDist)).toSorted()).toEqual([
       "app.css",
@@ -98,10 +98,10 @@ describe("runCli", () => {
     expect(await Bun.file(join(uiDist, "index.html")).text()).toContain('src="./app.js"');
   });
 
-  test("m3 build --tauri without a directory needs tauri.uiDist", async () => {
+  test("m3 build --bun without a directory needs bun.uiDist", async () => {
     await using tmp = await tempDir();
     await Bun.write(join(tmp.dir, "m3.config.ts"), 'export default { entry: "index.html" };\n');
-    await expect(runCli(["build", "--tauri"], tmp.dir)).rejects.toThrow("tauri.uiDist");
+    await expect(runCli(["build", "--bun"], tmp.dir)).rejects.toThrow("bun.uiDist");
   });
 
   test("help and version", async () => {
@@ -263,12 +263,12 @@ describe("runCli", () => {
   test("m3 desktop requires tauri config and builds webview", async () => {
     await using tmp = await tempDir();
     await Bun.write(join(tmp.dir, "m3.config.ts"), 'export default { entry: "index.html" };\n');
-    await expect(runCli(["desktop"], tmp.dir)).rejects.toThrow("tauri.uiDist");
+    await expect(runCli(["desktop"], tmp.dir)).rejects.toThrow("bun.uiDist");
 
     const uiDist = join(tmp.dir, "desktop-ui");
     await Bun.write(
       join(tmp.dir, "m3.config.ts"),
-      `export default { entry: ${JSON.stringify(join(FIXTURE, "plain.html"))}, tauri: { uiDist: ${JSON.stringify(uiDist)} } };\n`,
+      `export default { entry: ${JSON.stringify(join(FIXTURE, "plain.html"))}, bun: { uiDist: ${JSON.stringify(uiDist)} } };\n`,
     );
     expect(await runCli(["desktop"], tmp.dir)).toBe(0);
     expect(existsSync(join(uiDist, "index.html"))).toBe(true);
