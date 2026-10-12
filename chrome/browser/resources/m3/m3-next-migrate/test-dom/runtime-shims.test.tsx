@@ -160,7 +160,7 @@ describe("migrated browser runtime contracts", () => {
     ).toContain("/server|s");
     happyDOM.setURL("http://localhost/#/hash?q=one#anchor");
     const container = await mount(
-      <NextMigrateProvider mode="tauri" initialPath="/server?q=s">
+      <NextMigrateProvider mode="bun" initialPath="/server?q=s">
         <NavigationProbe />
       </NextMigrateProvider>,
     );

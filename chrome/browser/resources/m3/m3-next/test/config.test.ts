@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-// withM3 for Next 16: React Compiler, Cache Components, typed routes, Turbopack and the Tauri static export.
+// withM3 for Next 16: React Compiler, Cache Components, typed routes, Turbopack and Bun-native export.
 import { describe, expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -7,7 +7,7 @@ import {
   M3_OPTIMIZE_PACKAGE_IMPORTS,
   M3_TRANSPILE_PACKAGES,
   colorSchemeScript,
-  isTauriBuild,
+  isBunBuild,
   m3TypefaceCss,
   withM3,
 } from "../src/index";
@@ -43,9 +43,9 @@ describe("withM3 options", () => {
   });
 });
 
-describe("Tauri static export", () => {
-  test("`tauri: true` makes an export a webview can load", () => {
-    const config = withM3({}, { tauri: true, cacheComponents: true });
+describe("Bun-native static export", () => {
+  test("`bun: true` makes an export Chromium can load", () => {
+    const config = withM3({}, { bun: true, cacheComponents: true });
     expect(config.output).toBe("export");
     expect(config.trailingSlash).toBe(true);
     expect(config.images).toEqual({ unoptimized: true });
@@ -61,7 +61,7 @@ describe("Tauri static export", () => {
         images: { unoptimized: true, formats: ["image/avif"] },
         env: { A: "1" },
       },
-      { tauri: true },
+      { bun: true },
     );
     expect(config.output).toBe("standalone");
     expect(config.trailingSlash).toBe(false);
@@ -69,46 +69,46 @@ describe("Tauri static export", () => {
     expect(config.env).toEqual({ NEXT_PUBLIC_M3_STATIC: "1", A: "1" });
   });
 
-  test("`tauri: false` and no option leave the config a server config", () => {
-    for (const config of [withM3({}), withM3({}, { tauri: false })]) {
+  test("`bun: false` and no option leave the config a server config", () => {
+    for (const config of [withM3({}), withM3({}, { bun: false })]) {
       expect(config.output).toBeUndefined();
       expect(config.env).toBeUndefined();
     }
   });
 
-  test("`auto` follows the Tauri CLI environment", () => {
-    expect(isTauriBuild({})).toBe(false);
-    expect(isTauriBuild({ TAURI_ENV_PLATFORM: "linux" })).toBe(true);
-    const before = process.env["TAURI_ENV_PLATFORM"];
+  test("`auto` follows the Bun-native environment", () => {
+    expect(isBunBuild({})).toBe(false);
+    expect(isBunBuild({ BUN_NATIVE_PLATFORM: "linux" })).toBe(true);
+    const before = process.env["BUN_NATIVE_PLATFORM"];
     try {
-      delete process.env["TAURI_ENV_PLATFORM"];
-      delete process.env["TAURI_ENV_ARCH"];
-      expect(withM3({}, { tauri: "auto" }).output).toBeUndefined();
-      process.env["TAURI_ENV_PLATFORM"] = "linux";
-      expect(withM3({}, { tauri: "auto" }).output).toBe("export");
+      delete process.env["BUN_NATIVE_PLATFORM"];
+      delete process.env["BUN_NATIVE_ARCH"];
+      expect(withM3({}, { bun: "auto" }).output).toBeUndefined();
+      process.env["BUN_NATIVE_PLATFORM"] = "linux";
+      expect(withM3({}, { bun: "auto" }).output).toBe("export");
     } finally {
-      if (before === undefined) delete process.env["TAURI_ENV_PLATFORM"];
-      else process.env["TAURI_ENV_PLATFORM"] = before;
+      if (before === undefined) delete process.env["BUN_NATIVE_PLATFORM"];
+      else process.env["BUN_NATIVE_PLATFORM"] = before;
     }
   });
 
   test("the dev asset prefix is set only for a dev host, and never in production", () => {
     const env = process.env as Record<string, string | undefined>;
-    const saved = { host: env["TAURI_DEV_HOST"], node: env["NODE_ENV"] };
+    const saved = { host: env["BUN_NATIVE_DEV_HOST"], node: env["NODE_ENV"] };
     try {
-      delete env["TAURI_DEV_HOST"];
+      delete env["BUN_NATIVE_DEV_HOST"];
       env["NODE_ENV"] = "development";
-      expect(withM3({}, { tauri: true }).assetPrefix).toBeUndefined();
-      expect(withM3({}, { tauri: { devHost: "192.168.1.5", devPort: 3100 } }).assetPrefix).toBe(
+      expect(withM3({}, { bun: true }).assetPrefix).toBeUndefined();
+      expect(withM3({}, { bun: { devHost: "192.168.1.5", devPort: 3100 } }).assetPrefix).toBe(
         "http://192.168.1.5:3100",
       );
-      env["TAURI_DEV_HOST"] = "10.0.0.2";
-      expect(withM3({}, { tauri: true }).assetPrefix).toBe("http://10.0.0.2:3000");
+      env["BUN_NATIVE_DEV_HOST"] = "10.0.0.2";
+      expect(withM3({}, { bun: true }).assetPrefix).toBe("http://10.0.0.2:3000");
       env["NODE_ENV"] = "production";
       expect(withM3({}, { tauri: true }).assetPrefix).toBeUndefined();
     } finally {
       for (const [key, value] of [
-        ["TAURI_DEV_HOST", saved.host],
+        ["BUN_NATIVE_DEV_HOST", saved.host],
         ["NODE_ENV", saved.node],
       ] as const) {
         if (value === undefined) delete env[key];
