@@ -17,7 +17,7 @@ next-migrate codemod all ./my-app --apply       # write
 next-migrate pages-hints ./my-app               # Pages Router -> App Router plan, nothing rewritten
 ```
 
-Inside the Aphrody checkout, `yolo m3 next-migrate` takes the same arguments.
+Inside the Aphrody checkout, invoke the `next-migrate` binary directly.
 
 | Group     | Codemod                                                            | Does                                                                                                                                                                                                                                                              |
 | --------- | ------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

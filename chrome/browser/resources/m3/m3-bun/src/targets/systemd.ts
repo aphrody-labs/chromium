@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: Apache-2.0
-// systemd: a unit in the shape of the yolo host units (`tools/config/host/systemd/<ns>/*.service`: Type=simple, an
+// systemd: a unit in the Aphrody host shape (`tools/config/host/systemd/<ns>/*.service`: Type=simple, an
 // unprivileged user, `WorkingDirectory=/home/<user>/apps/<ns>/current`, an `EnvironmentFile` under `/etc/<ns>`, restart on
 // failure), with the sandbox written as the shared drop-ins of `tools/config/host/systemd/shared` (copied from the
-// yolo checkout when it is there), a catalog entry in the `service-catalog.json` format and an env example.
+// Aphrody checkout when it is there), a catalog entry in the `service-catalog.json` format and an env example.
 // Nothing here installs anything: hosts change through Infra's catalog, plan first.
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { GENERATED_NOTE, type GeneratedFile } from "../util.ts";
 import type { Target, TargetContext } from "./types.ts";
 
-/** The shared drop-ins this unit uses, in application order, with the text used when yolo is not checked out. */
+/** The shared drop-ins this unit uses, in application order, with embedded fallback text. */
 export const SHARED_DROPINS: ReadonlyArray<readonly [string, string]> = [
   [
     "sandbox-base.conf",
@@ -30,7 +30,7 @@ export const SHARED_DROPINS: ReadonlyArray<readonly [string, string]> = [
   ],
 ];
 
-/** A shared drop-in from `<yolo>/tools/config/host/systemd/shared`, else the embedded text. */
+/** A shared drop-in from the Aphrody host config, else the embedded text. */
 export function sharedDropin(aphrodyRoot: string, file: string): string {
   const path = join(aphrodyRoot, "tools/config/host/systemd/shared", file);
   if (existsSync(path)) return readFileSync(path, "utf8");
@@ -79,7 +79,7 @@ export const systemd: Target = {
   id: "systemd",
   title: "systemd",
   description:
-    "Service unit in the yolo host shape, shared sandbox drop-ins, service-catalog entry, env example",
+    "Service unit in the Aphrody host shape, shared sandbox drop-ins, service-catalog entry, env example",
   generate(c): GeneratedFile[] {
     const dropins: GeneratedFile[] = SHARED_DROPINS.map(([name], i) => ({
       path: `${c.name}.service.d/${String(10 + i * 10).padStart(2, "0")}-${name}`,

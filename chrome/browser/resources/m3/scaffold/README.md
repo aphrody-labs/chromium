@@ -9,7 +9,7 @@ writer that never overwrites. Guide: [`docs/guides/ui/SCAFFOLD.md`](../../docs/g
 `m3-bun dev|build|serve`; `m3-bun serve` answers client routes with `index.html`.
 
 ```sh
-yolo m3 scaffold list                          # npm bin: aphrody-scaffold list
-yolo m3 scaffold example ../aphrody-example
-yolo m3 scaffold new spa ../my-spa
+bunx aphrody-scaffold list
+bunx aphrody-scaffold example ../aphrody-example
+bunx aphrody-scaffold new spa ../my-spa
 ```

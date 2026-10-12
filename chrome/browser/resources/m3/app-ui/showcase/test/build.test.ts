@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 // Smoke test of the single M3 showcase (it absorbed m3/apps/web): the production build of
-// src/index.html through the m3-bun pipeline of `yolo m3 bun build` emits the page with its
+// src/index.html through the m3-bun pipeline emits the page with its
 // favicon, script and stylesheet.
 import { expect, test } from "bun:test";
 import { mkdtemp, readdir, rm } from "node:fs/promises";
