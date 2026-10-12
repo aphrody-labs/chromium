@@ -312,7 +312,7 @@ if (import.meta.main) {
   if (args.includes("--examples")) {
     const examples = join(PACKAGES, "m3-next/examples");
     const rows: string[] = [];
-    for (const name of ["app", "tauri"]) {
+    for (const name of ["app"]) {
       const sizes = exampleSizes(join(examples, name));
       if (!sizes) continue;
       const bench = flag(`--bench-${name}`);
@@ -326,13 +326,13 @@ if (import.meta.main) {
             })
           : undefined;
       rows.push(
-        `| ${name === "app" ? "examples/app (server: Cache Components, proxy.ts, React Compiler)" : "examples/tauri (static export)"} | ${sizes.js.bytes} (${sizes.js.gzip} gz) | ${sizes.css.bytes} (${sizes.css.gzip} gz) | ${times ? `${times.coldMedian} ms (${times.cold.join(", ")})` : "n/a"} | ${times ? `${times.warmMedian} ms (${times.warm.join(", ")})` : "n/a"} |`,
+        `| examples/app (server: Cache Components, proxy.ts, React Compiler) | ${sizes.js.bytes} (${sizes.js.gzip} gz) | ${sizes.css.bytes} (${sizes.css.gzip} gz) | ${times ? `${times.coldMedian} ms (${times.cold.join(", ")})` : "n/a"} | ${times ? `${times.warmMedian} ms (${times.warm.join(", ")})` : "n/a"} |`,
       );
     }
     if (rows.length > 0)
-      extra += `## Example apps, built and measured through yolo
+      extra += `## Example app, built and measured through Bun
 
-\`yolo web build\` on Bun ${Bun.version}: Next 16.3.8 with Turbopack, Turbopack workers on Bun too (the \`m3-next\` runner puts a Bun \`node\` first on PATH). Client assets are the files under \`static/\` (JS and CSS, unminified sum of every chunk the build emits, all routes). Cold removes \`.next\` (and \`out\`); warm keeps the build cache. Times are the wall time of the yolo command, median of three (runs listed), on a shared WSL machine.
+\`bun run build\` on Bun ${Bun.version}: Next 16.3.8 with Turbopack and Bun workers. Client assets are the files under \`static/\` (JS and CSS, unminified sum of every chunk the build emits, all routes). Cold removes \`.next\` (and \`out\`); warm keeps the build cache.
 
 | App | Client JS | Client CSS | Cold build | Warm build |
 | --- | --- | --- | --- | --- |
