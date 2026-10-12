@@ -51,7 +51,7 @@ export interface ParsedArgs {
 /** Flags that never take a value. */
 const BOOLEAN_FLAGS = new Set(["dark", "dev", "hmr", "help", "version", "build", "prerender"]);
 /** Flags whose value is optional (`--tauri` alone uses `tauri.uiDist` of the config). */
-const OPTIONAL_VALUE_FLAGS = new Set(["tauri"]);
+const OPTIONAL_VALUE_FLAGS = new Set(["bun"]);
 const SHORT: Record<string, string> = { h: "help", v: "version", p: "port", o: "out" };
 
 export const USAGE = `m3 — the @aphrody Material Design 3 framework CLI
@@ -239,13 +239,13 @@ async function loadM3Bun(): Promise<M3BunCompiler> {
 /** `m3 build` of an HTML-entry project. */
 async function buildCommand(cwd: string, flags: Record<string, FlagValue>): Promise<number> {
   const config = await loadM3Config(cwd, stringFlag(flags, "config"));
-  const tauriFlag = flags.tauri;
-  let tauri: { uiDist: string } | undefined;
-  if (typeof tauriFlag === "string") tauri = { uiDist: resolve(cwd, tauriFlag) };
-  else if (tauriFlag === true) {
-    if (!config.tauri)
-      throw new Error("m3 build --tauri: give a directory or set `tauri.uiDist` in m3.config.ts");
-    tauri = config.tauri;
+  const bunFlag = flags.bun;
+  let bun: { uiDist: string } | undefined;
+  if (typeof bunFlag === "string") bun = { uiDist: resolve(cwd, bunFlag) };
+  else if (bunFlag === true) {
+    if (!config.bun)
+      throw new Error("m3 build --bun: give a directory or set `bun.uiDist` in m3.config.ts");
+    bun = config.bun;
   }
   const outdir = stringFlag(flags, "outdir");
   const started = performance.now();
@@ -257,7 +257,7 @@ async function buildCommand(cwd: string, flags: Record<string, FlagValue>): Prom
     drop: config.drop,
     minify: config.minify,
     optimizeImports: config.optimizeImports,
-    tauri,
+    bun,
     plugin: { theme: config.theme, root: config.root, configDir: config.dir },
     cwd: config.dir,
   });
@@ -456,8 +456,8 @@ export async function runCli(
     }
     case "desktop": {
       const config = await loadM3Config(cwd, stringFlag(flags, "config"));
-      if (!config.tauri) {
-        throw new Error("m3 desktop: set `tauri.uiDist` in m3.config.ts");
+      if (!config.bun) {
+        throw new Error("m3 desktop: set `bun.uiDist` in m3.config.ts");
       }
       const isDev = flags.dev === true;
       if (isDev) {
@@ -473,17 +473,17 @@ export async function runCli(
         return 0;
       }
       const started = performance.now();
-      const tauri = config.tauri;
+      const bun = config.bun;
       const result = await buildM3({
         entry: config.entry,
         outdir: config.outdir,
         production: true,
-        tauri,
+        bun,
         plugin: { theme: config.theme, root: config.root, configDir: config.dir },
         cwd: config.dir,
       });
       console.log(
-        `m3 desktop: built webview to ${tauri.uiDist} (${result.outputs.length} files) in ${Math.round(performance.now() - started)} ms`,
+        `m3 desktop: built Bun-native UI to ${bun.uiDist} (${result.outputs.length} files) in ${Math.round(performance.now() - started)} ms`,
       );
       return 0;
     }

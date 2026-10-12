@@ -25,7 +25,7 @@ export interface M3ThemeConfig {
   dark?: boolean;
 }
 
-export interface M3TauriConfig {
+export interface M3BunConfig {
   /** Output directory of the Tauri webview (`frontendDist`). */
   uiDist: string;
 }
@@ -59,7 +59,7 @@ export interface M3Config {
   /** Modules with barrel files whose unused exports should be skipped during bundling. */
   optimizeImports?: string[];
   /** Tauri webview build (`m3 build --tauri`). */
-  tauri?: M3TauriConfig;
+  bun?: M3BunConfig;
   /** Inputs of the `m3:theme.css` virtual sheet. */
   theme?: M3ThemeConfig;
   /** Aphrody OS checkout holding the fonts (default: discovered, see `resolveRepoRoot`). */
@@ -138,7 +138,7 @@ export function resolveM3Config(config: M3Config, dir: string, file?: string): R
     outdir: abs(config.outdir ?? "dist"),
     routes: Object.fromEntries(Object.entries(config.routes ?? {}).map(([route, path]) => [route, abs(path)])),
     proxy: { ...config.proxy },
-    tauri: config.tauri ? { ...config.tauri, uiDist: abs(config.tauri.uiDist) } : undefined,
+    bun: config.bun ? { ...config.bun, uiDist: abs(config.bun.uiDist) } : undefined,
     root: config.root ? abs(config.root) : undefined,
   };
 }

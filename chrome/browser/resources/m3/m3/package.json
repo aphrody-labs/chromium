@@ -1,13 +1,13 @@
 {
   "name": "@aphrody/m3",
   "version": "1.4.4",
-  "description": "The @aphrody Material Design 3 framework for Bun: one plugin (Tailwind v4, Sass through Rust, m3:* virtual theme/font modules, ?url imports), serveM3 (Bun.serve + HMR + proxy), buildM3 (Bun.build, Tauri webview layout), M3App and the m3 CLI.",
+  "description": "The @aphrody Material Design 3 framework for Bun: one plugin, serveM3, buildM3, M3App and the m3 CLI.",
   "keywords": [
     "bun",
     "material-3",
     "md3",
     "tailwind",
-    "tauri"
+    "bun-native"
   ],
   "homepage": "https://github.com/aphrody-labs/aphrody-m3/tree/main/packages/m3#readme",
   "license": "Apache-2.0",

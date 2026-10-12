@@ -12,7 +12,7 @@ import { mkdir, rename, rm, stat } from "node:fs/promises";
 import { basename, dirname, join, relative, resolve } from "node:path";
 import { m3Plugin, type M3PluginOptions } from "./plugin";
 
-export interface BuildM3Tauri {
+export interface BuildM3Bun {
   /** Output directory of the webview (`frontendDist`). */
   uiDist: string;
 }
@@ -33,7 +33,7 @@ export interface BuildM3Options {
   /** Barrel files / packages to optimize unused named imports for. */
   optimizeImports?: string[];
   /** Tauri webview layout into `uiDist`. */
-  tauri?: BuildM3Tauri;
+  bun?: BuildM3Bun;
   /** Options of the composed `m3Plugin`, or `false` to leave it out (a plugin in `plugins` replaces it, e.g. `@aphrody/m3-bun`). */
   plugin?: M3PluginOptions | false;
   /** Additional Bun plugins, after `m3Plugin`. */
@@ -63,7 +63,7 @@ export interface BuildM3Result {
 }
 
 /** Fixed names of the Tauri layout. */
-export const TAURI_LAYOUT = {
+export const BUN_LAYOUT = {
   html: "index.html",
   script: "app.js",
   style: "app.css",
@@ -110,12 +110,12 @@ export async function buildM3(options: BuildM3Options): Promise<BuildM3Result> {
     resolve(cwd, entry),
   );
   const production = options.production ?? true;
-  const tauri = options.tauri;
-  if (tauri && entries.length !== 1)
-    throw new Error("buildM3: the Tauri layout takes exactly one HTML entry");
-  if (tauri && !entries[0]!.endsWith(".html"))
-    throw new Error("buildM3: the Tauri entry must be an .html file");
-  const outdir = resolve(cwd, tauri ? tauri.uiDist : (options.outdir ?? "dist"));
+  const bun = options.bun;
+  if (bun && entries.length !== 1)
+    throw new Error("buildM3: the Bun-native layout takes exactly one HTML entry");
+  if (bun && !entries[0]!.endsWith(".html"))
+    throw new Error("buildM3: the Bun-native entry must be an .html file");
+  const outdir = resolve(cwd, bun ? bun.uiDist : (options.outdir ?? "dist"));
   const clean = options.clean ?? true;
   const buildOutdir = clean ? `${outdir}.stage-${crypto.randomUUID()}` : outdir;
   if (clean) await mkdir(dirname(outdir), { recursive: true });
@@ -135,7 +135,7 @@ export async function buildM3(options: BuildM3Options): Promise<BuildM3Result> {
     target: "browser",
     minify: minifyConfig,
     sourcemap: production ? "none" : "linked",
-    splitting: tauri ? false : (options.splitting ?? false),
+    splitting: bun ? false : (options.splitting ?? false),
     ...(options.metafile ? { metafile: true } : {}),
     define: {
       "process.env.NODE_ENV": JSON.stringify(production ? "production" : "development"),
@@ -149,12 +149,12 @@ export async function buildM3(options: BuildM3Options): Promise<BuildM3Result> {
       ...(options.plugin === false ? [] : [m3Plugin(options.plugin)]),
       ...(options.plugins ?? []),
     ],
-    ...(tauri
+    ...(bun
       ? {
           naming: {
             entry: "[name].[ext]",
             chunk: "app.[ext]",
-            asset: `${TAURI_LAYOUT.fonts}/[name].[ext]`,
+            asset: `${BUN_LAYOUT.fonts}/[name].[ext]`,
           },
         }
       : {}),
@@ -181,7 +181,7 @@ export async function buildM3(options: BuildM3Options): Promise<BuildM3Result> {
     bytes: artifact.size,
   }));
   try {
-    if (tauri) outputs = await normalizeTauriLayout(buildOutdir, entries[0]!, outputs);
+    if (bun) outputs = await normalizeBunLayout(buildOutdir, entries[0]!, outputs);
     if (clean) {
       const backup = `${outdir}.backup-${crypto.randomUUID()}`;
       let hadOutput = false;
@@ -211,7 +211,7 @@ export async function buildM3(options: BuildM3Options): Promise<BuildM3Result> {
  * Bring a Tauri build to the fixed layout: the HTML entry becomes `index.html` and its script
  * `app.js` (Bun names them after their sources), references rewritten.
  */
-async function normalizeTauriLayout(
+async function normalizeBunLayout(
   outdir: string,
   entry: string,
   outputs: BuildM3Output[],
@@ -226,18 +226,18 @@ async function normalizeTauriLayout(
       `buildM3: the Tauri entry produced ${scripts.length} scripts; keep one module script`,
     );
   const script = scripts[0];
-  if (script && script.path !== TAURI_LAYOUT.script) {
-    await rename(join(outdir, script.path), join(outdir, TAURI_LAYOUT.script));
-    html = rewriteHtmlReference(html, script.path, TAURI_LAYOUT.script);
-    script.path = TAURI_LAYOUT.script;
+  if (script && script.path !== BUN_LAYOUT.script) {
+    await rename(join(outdir, script.path), join(outdir, BUN_LAYOUT.script));
+    html = rewriteHtmlReference(html, script.path, BUN_LAYOUT.script);
+    script.path = BUN_LAYOUT.script;
   }
 
-  await Bun.write(join(outdir, TAURI_LAYOUT.html), html);
-  if (htmlName !== TAURI_LAYOUT.html) await rm(htmlPath, { force: true });
+  await Bun.write(join(outdir, BUN_LAYOUT.html), html);
+  if (htmlName !== BUN_LAYOUT.html) await rm(htmlPath, { force: true });
 
   return Promise.all(
     outputs.map(async (output) => {
-      const path = output.path === htmlName ? TAURI_LAYOUT.html : output.path;
+      const path = output.path === htmlName ? BUN_LAYOUT.html : output.path;
       return { ...output, path, bytes: (await stat(join(outdir, path))).size };
     }),
   );

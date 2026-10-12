@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // @aphrody/m3: the Material Design 3 framework for Bun. Bun-side API; the browser entries are
 // `@aphrody/m3/react` (M3App) and `@aphrody/m3/lit` (vanilla / Lit registration).
-export { buildM3, rewriteHtmlReference, TAURI_LAYOUT } from "./build";
-export type { BuildM3Options, BuildM3Output, BuildM3Result, BuildM3Tauri } from "./build";
+export { buildM3, rewriteHtmlReference, BUN_LAYOUT } from "./build";
+export type { BuildM3Options, BuildM3Output, BuildM3Result, BuildM3Bun } from "./build";
 export {
   CONFIG_FILES,
   defineM3Config,
@@ -10,7 +10,7 @@ export {
   loadM3Config,
   resolveM3Config,
 } from "./config";
-export type { M3Config, M3TauriConfig, M3ThemeConfig, ResolvedM3Config } from "./config";
+export type { M3Config, M3BunConfig, M3ThemeConfig, ResolvedM3Config } from "./config";
 export { cssRequest, normalizeVariant } from "./native";
 export { createM3Project } from "./new";
 export type { M3CssConfig, M3CssFn, M3Sheet } from "./native";
