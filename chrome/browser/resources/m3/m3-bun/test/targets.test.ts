@@ -67,7 +67,6 @@ describe("registry", () => {
       "vscode",
       "windows",
       "linux-image",
-      "tauri",
       "webos",
       "lambda",
       "os-themes",

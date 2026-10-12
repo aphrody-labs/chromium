@@ -105,7 +105,7 @@ describe("Bun-native static export", () => {
       env["BUN_NATIVE_DEV_HOST"] = "10.0.0.2";
       expect(withM3({}, { bun: true }).assetPrefix).toBe("http://10.0.0.2:3000");
       env["NODE_ENV"] = "production";
-      expect(withM3({}, { tauri: true }).assetPrefix).toBeUndefined();
+      expect(withM3({}, { bun: true }).assetPrefix).toBeUndefined();
     } finally {
       for (const [key, value] of [
         ["BUN_NATIVE_DEV_HOST", saved.host],
