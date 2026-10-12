@@ -1,12 +1,11 @@
 {
   "name": "@aphrody/scaffold",
   "version": "1.4.4",
-  "description": "The single project scaffolder of the UI stack: Tauri 3 shell (pins, config, capabilities, icon), M3 web and app templates, the canonical example and a writer that never overwrites. Used by m3 new, m3-next-migrate and web-to-tauri.",
+  "description": "The single Bun-native project scaffolder of the M3 UI stack and its web/app templates.",
   "keywords": [
     "material-3",
     "scaffold",
-    "tauri",
-    "tauri-3",
+    "bun-native",
     "template"
   ],
   "license": "Apache-2.0",
@@ -28,7 +27,6 @@
     "./png": "./src/png.ts",
     "./names": "./src/names.ts",
     "./files": "./src/files.ts",
-    "./tauri": "./src/tauri.ts",
     "./package.json": "./package.json"
   },
   "publishConfig": {

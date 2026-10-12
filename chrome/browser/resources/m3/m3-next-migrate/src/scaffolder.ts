@@ -3,16 +3,9 @@ import {
   appFiles,
   assertNativeShellOwner,
   assertPrivateOwnerWorkspace,
-  TAURI_3,
   writeFiles,
 } from "@aphrody/scaffold";
 import { generateAppRouterCode, type RouteHierarchy } from "./layout";
-
-/**
- * Tauri 3 line scaffolded into generated apps. The single copy lives in `@aphrody/scaffold` (mirror of
- * the root `Cargo.toml` and `tools/config/tauri-upstream.json`, bumped with `bun run desktop:sync`).
- */
-export { TAURI_3 };
 
 export interface ScaffoldOptions {
   projectName?: string;

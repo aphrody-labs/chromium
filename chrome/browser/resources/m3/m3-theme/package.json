@@ -45,11 +45,11 @@
       "types": "./src/react.tsx",
       "default": "./dist/react.js"
     },
-    "./tauri": {
+    "./bun": {
       "bun": "./src/bun.tsx",
       "import": "./src/bun.tsx",
       "types": "./src/bun.tsx",
-      "default": "./dist/tauri.js"
+      "default": "./dist/bun.js"
     },
     "./tokens.css": "./tokens.css",
     "./tailwind.css": "./tailwind.css",

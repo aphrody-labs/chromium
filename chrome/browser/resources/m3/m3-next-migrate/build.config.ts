@@ -28,5 +28,4 @@ export default m3Package({
     "shims/provider.js",
     "shims/metadata.js",
   ],
-  external: ["@tauri-apps/*"],
 });
