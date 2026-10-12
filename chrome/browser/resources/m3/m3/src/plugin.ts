@@ -10,7 +10,6 @@
 // Dev server: `bunfig.toml` -> `[serve.static] plugins = ["@aphrody/m3/plugin"]` loads the default
 // export, which reads the theme from the `m3.config.ts` of the working directory.
 import type { BunPlugin, OnLoadResult, PluginBuilder } from "bun";
-import { faceRule, fontFace } from "@aphrody/m3-fonts";
 import { existsSync } from "node:fs";
 import { basename, dirname, join, resolve } from "node:path";
 import { findM3Config, loadM3Config, type M3ThemeConfig } from "./config";
@@ -53,6 +52,14 @@ export const SYMBOL_MODULES: Readonly<Record<string, SymbolStyle>> = {
 /** `m3:fonts.css`: Google Sans Flex. Its file name lives in the font directory so `url()` resolves. */
 export const FONTS_MODULE = "fonts.css";
 const FONTS_VIRTUAL = "__m3-fonts.css";
+
+function fontFace(family: string): { fontFamily: string; fontStyle: string; fontWeight: string } {
+  return { fontFamily: `"${family}"`, fontStyle: "normal", fontWeight: "100 1000" };
+}
+
+function faceRule(face: Record<string, string>, file: string): string {
+  return `@font-face{font-family:${face.fontFamily};font-style:${face.fontStyle};font-weight:${face.fontWeight};src:url("${file}") format("${face.format}");}`;
+}
 
 /** Every `m3:*` specifier the plugin serves. */
 export const M3_MODULES: readonly string[] = [

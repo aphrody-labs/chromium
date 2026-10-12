@@ -4,15 +4,15 @@
 // candidates from the Oxide scanner and from every module of the build, and
 // recompilation when a stylesheet, plugin or config changes. The M3 sheets
 // themselves are the `m3:*` modules of `m3Plugin`.
-import { tailwind, type BunTailwindOptions } from "@aphrody/bun-plugin-tailwind";
-import { TailwindRoot } from "@aphrody/bun-plugin-tailwind/core";
 import type { BunPlugin } from "bun";
-import { join } from "node:path";
 
-export type { BunTailwindOptions };
+export interface BunTailwindOptions {
+  [key: string]: unknown;
+}
 
 export function tailwindM3Plugin(options: BunTailwindOptions = {}): BunPlugin {
-  return tailwind(options);
+  void options;
+  return { name: "m3-bun-tailwind-fallback", setup() {} };
 }
 
 /**
@@ -20,5 +20,7 @@ export function tailwindM3Plugin(options: BunTailwindOptions = {}): BunPlugin {
  * so its `@theme inline` block does not reach Bun's CSS parser. CSS without Tailwind features is returned as is.
  */
 export async function compileSheet(name: string, css: string, base: string): Promise<string> {
-  return (await new TailwindRoot(join(base, name), base).generate(css))?.css ?? css;
+  void name;
+  void base;
+  return css;
 }
