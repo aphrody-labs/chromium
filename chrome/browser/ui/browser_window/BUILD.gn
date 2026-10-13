@@ -2,6 +2,7 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
+import("//cef/libcef/features/features.gni")
 import("//chrome/common/features.gni")
 
 # This is the public interface for a browser window. Most features in
@@ -39,6 +40,7 @@ source_set("browser_window") {
       "//ui/base:types",
     ]
   }
+  public_deps += [ "//cef/libcef/features:buildflags" ]
 }
 
 source_set("create_browser_window") {

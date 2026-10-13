@@ -2,6 +2,7 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
+import("//cef/libcef/features/features.gni")
 import("//build/config/ui.gni")
 
 assert(!is_android)
@@ -20,6 +21,11 @@ source_set("window_feature_controller") {
     "//chrome/browser/ui/fullscreen",
     "//chrome/browser/ui/web_applications",
   ]
+  deps += [ "//cef/libcef/features:buildflags" ]
+  if (enable_cef) {
+    configs += [ "//cef/libcef/features:config" ]
+    deps += [ "//cef/libcef/features:deps" ]
+  }
 }
 
 source_set("unit_tests") {

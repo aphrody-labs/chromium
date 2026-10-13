@@ -167,11 +167,7 @@ std::vector<LanguageTag> GetCandidates() {
 // Preferred locales are enabled everywhere but Linux systems with GLib. This
 // function parses `preferred_locale` into a `LanguageTag` if they are enabled.
 std::optional<LanguageTag> GetPreferredTag(std::string_view preferred_locale) {
-#if BUILDFLAG(IS_APPLE)
-  std::string_view locale_override = l10n_util::GetLocaleOverride();
-  return GetLanguageTagFromString(locale_override.empty() ? preferred_locale
-                                                          : locale_override);
-#elif defined(USE_GLIB) && !BUILDFLAG(IS_CHROMEOS)
+#if defined(USE_GLIB) && !BUILDFLAG(IS_CHROMEOS)
   return std::nullopt;
 #else
   return GetLanguageTagFromString(preferred_locale);

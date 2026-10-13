@@ -2,6 +2,7 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
+import("//cef/libcef/features/features.gni")
 import("//build/config/chrome_build.gni")
 import("//chrome/common/features.gni")
 
@@ -246,6 +247,11 @@ source_set("internal") {
       "//chrome/browser/ui:browser_window_header",
       "//chrome/browser/ui/views/frame:browser_view_header",
     ]
+  }
+  deps += [ "//cef/libcef/features:buildflags" ]
+  if (enable_cef) {
+    configs += [ "//cef/libcef/features:config" ]
+    deps += [ "//cef/libcef/features:deps" ]
   }
 }
 

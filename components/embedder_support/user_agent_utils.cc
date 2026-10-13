@@ -25,6 +25,7 @@
 #include "base/system/sys_info.h"
 #include "build/branding_buildflags.h"
 #include "build/build_config.h"
+#include "cef/libcef/features/features.h"
 #include "components/embedder_support/switches.h"
 #include "components/version_info/version_info.h"
 #include "net/http/http_util.h"
@@ -48,6 +49,10 @@
 
 #if BUILDFLAG(IS_POSIX) && !BUILDFLAG(IS_MAC)
 #include <sys/utsname.h>
+#endif
+
+#if BUILDFLAG(ENABLE_CEF)
+constexpr char kUserAgentProductAndVersion[] = "user-agent-product";
 #endif
 
 namespace embedder_support {
@@ -464,6 +469,13 @@ std::string GetUserAgentInternal() {
 }  // namespace
 
 std::string GetProductAndVersion() {
+#if BUILDFLAG(ENABLE_CEF)
+  base::CommandLine* command_line = base::CommandLine::ForCurrentProcess();
+  if (command_line->HasSwitch(kUserAgentProductAndVersion)) {
+    return command_line->GetSwitchValueASCII(kUserAgentProductAndVersion);
+  }
+#endif
+
   return base::FeatureList::IsEnabled(
              blink::features::kReduceUserAgentMinorVersion)
              ? version_info::GetProductNameAndVersionForReducedUserAgent()

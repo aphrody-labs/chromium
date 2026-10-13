@@ -2,6 +2,7 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
+import("//cef/libcef/features/features.gni")
 import("//content/browser/devtools/features.gni")
 import("//extensions/buildflags/buildflags.gni")
 import("//printing/buildflags/buildflags.gni")
@@ -534,6 +535,11 @@ static_library("devtools") {
 
   if (!is_android) {
     deps += [ "//chrome/browser/ui:browser_tab_strip_tracker" ]
+  }
+  deps += [ "//cef/libcef/features:buildflags" ]
+  if (enable_cef) {
+    configs += [ "//cef/libcef/features:config" ]
+    deps += [ "//cef/libcef/features:deps" ]
   }
 }
 
