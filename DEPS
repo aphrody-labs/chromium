@@ -334,7 +334,7 @@ vars = {
   # Three lines of non-changing comments so that
   # the commit queue can handle CLs rolling V8
   # and whatever else without interference from each other.
-  'v8_revision': 'f428bb00301e51385e63d1baed30ae006afb71e1',
+  'v8_revision': '24baaaebcae916c6e565e566f500254793655fa0',
   # Three lines of non-changing comments so that
   # the commit queue can handle CLs rolling ANGLE
   # and whatever else without interference from each other.
@@ -3347,7 +3347,7 @@ deps = {
   },
 
   'src/v8':
-    Var('chromium_git') + '/v8/v8.git' + '@' +  Var('v8_revision'),
+    'https://github.com/aphrody-labs/v8.git' + '@' + Var('v8_revision'),
 
 # See checkout_src_internal_infra declaration.
 # LINT.IfChange
